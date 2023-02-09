@@ -2,7 +2,7 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import config from "../config";
 import { QueryOP, Status, StatusCode } from "./constants";
-import { Page, Response } from "./type";
+import { Data, Page, Response } from "./type";
 import Joi from "joi";
 
 function responseBuilder({
@@ -131,10 +131,10 @@ function validatorSchema(schema: Joi.Schema) {
 }
 
 async function paginationBuilder(
-  loader: (skip: number) => Promise<{ data: Array<Object>; total: number }>,
+  loader: (skip: number) => Promise<{ data: Data; total: number }>,
   limit: number = 10,
   page: number = 1
-): Promise<{ page: Page; data: Array<Object> }> {
+) {
   page = page > 0 ? page : 1;
   const skip = limit * (page - 1);
 

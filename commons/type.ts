@@ -15,14 +15,16 @@ type Response = {
   statusCode: StatusCode;
   status: Status;
   message: string | Array<string>;
-  data?: Object | Array<Object> | null;
+  data?: Data;
   page?: Page;
 };
+
+type Data = Object | Array<Object> | null;
 
 type ModelBuilder = (payload: any) => Joi.AnySchema<any> | undefined;
 
 type Model = mongoose.Model<any>;
 
-type Serializer = (data: any) => Object | null;
+type Serializer = (payload: any) => Data;
 
-export { Page, Response, ModelBuilder, Model, Serializer };
+export { Page, Response, ModelBuilder, Model, Serializer, Data };

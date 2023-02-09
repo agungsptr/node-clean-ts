@@ -1,4 +1,5 @@
 import CustomError from "./customError";
+import mongoose from "mongoose";
 
 function isEmpty(obj: any) {
   if (Array.isArray(obj) && obj.length === 0) {
@@ -44,10 +45,15 @@ function imageFileTypeIsValid(file: any) {
   );
 }
 
+function isValidObjectId(id: string) {
+  return mongoose.isValidObjectId(id);
+}
+
 export {
   ifTrueThrowError,
   ifFalseThrowError,
   imageFileTypeIsValid,
   isEmpty,
   ifEmptyThrowError,
+  isValidObjectId,
 };
