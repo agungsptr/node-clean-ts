@@ -2,7 +2,6 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import config from "../config";
 import { QueryOP, Status, StatusCode } from "./constants";
-import { isEmpty } from "./checks";
 import { Page, Response } from "./type";
 import Joi from "joi";
 
@@ -13,10 +12,10 @@ function responseBuilder({
   page,
 }: {
   statusCode: StatusCode;
-  message?: string | Array<string>;
-  data?: Array<Object>;
+  message: string | Array<string>;
+  data?: Object | Array<Object> | null;
   page?: Page;
-}): Response {
+}) {
   const status = statusCode === StatusCode.OK ? Status.Success : Status.Failed;
   const result: Response = {
     statusCode,
@@ -24,13 +23,13 @@ function responseBuilder({
     message,
     data,
   };
-  if (page) result["page"] = page;
+  if (page) result.page = page;
   return result;
 }
 
-function queriesBuilder(queries: Object, eqlType: QueryOP): Object {
+function queriesBuilder(eqlType: QueryOP, queries?: Object): Object {
   const obj: Record<string, any> = {};
-  if (isEmpty(queries)) return obj;
+  if (queries === undefined) return obj;
   for (const [key, val] of Object.entries(queries)) {
     if (eqlType === "EQ") {
       obj[key] = { $eq: val };
@@ -41,13 +40,13 @@ function queriesBuilder(queries: Object, eqlType: QueryOP): Object {
   return obj;
 }
 
-function serializer(_serializeSingle: (data: Object) => {}) {
-  return (data?: Object | Array<Object>) => {
+function serializer(single: (data: Record<string, any>) => Object) {
+  return (data: any) => {
     if (!data) return null;
     if (Array.isArray(data)) {
-      return data.map(_serializeSingle);
+      return data.map(single);
     }
-    return _serializeSingle(data);
+    return single(data);
   };
 }
 
@@ -114,7 +113,11 @@ function sanitizerPayload(payload: Record<string, any>) {
 }
 
 function validatorSchema(schema: Joi.Schema) {
-  return (payload: Object) => {
+  type ValidationResult = {
+    error: Array<string>;
+    value: Joi.AnySchema<any> | undefined;
+  };
+  return (payload: any): ValidationResult => {
     const { error, value } = schema.validate(payload, { abortEarly: false });
     let messages: Array<string> = [];
     if (error !== undefined) {
@@ -159,12 +162,12 @@ async function paginationBuilder(
   };
 }
 
-function objBuilder(data: Object): Object {
+function objBuilder(data: Object | null): Object {
   /** Use to make object with only have attribute not null */
   const obj: Record<string, any> = {};
-  if (isEmpty(data)) return obj;
+  if (data === null) return obj;
   for (const [key, val] of Object.entries(data)) {
-    if (!isEmpty(val)) obj[key] = val;
+    if (val) obj[key] = val;
   }
   return obj;
 }

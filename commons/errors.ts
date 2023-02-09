@@ -15,7 +15,7 @@ function logError(err: Error): void {
   }
 }
 
-function repackageError(err: CustomError | Error) {
+function repackageError(err: any) {
   if (err instanceof CustomError) {
     return err;
   } else {
@@ -28,7 +28,7 @@ function repackageError(err: CustomError | Error) {
 
 function responseWithError(
   res: any,
-  err: CustomError | Error,
+  err: CustomError | Error | undefined | any,
   customErrorCode: StatusCode = StatusCode.BadRequest
 ) {
   if (err instanceof CustomError) {

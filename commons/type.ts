@@ -1,3 +1,5 @@
+import Joi from "joi";
+import mongoose from "mongoose";
 import { Status, StatusCode } from "./constants";
 
 type Page = {
@@ -12,9 +14,15 @@ type Page = {
 type Response = {
   statusCode: StatusCode;
   status: Status;
-  message?: string | Array<string>;
-  data?: Array<Object>;
+  message: string | Array<string>;
+  data?: Object | Array<Object> | null;
   page?: Page;
 };
 
-export { Page, Response };
+type ModelBuilder = (payload: any) => Joi.AnySchema<any> | undefined;
+
+type Model = mongoose.Model<any>;
+
+type Serializer = (data: any) => Object | null;
+
+export { Page, Response, ModelBuilder, Model, Serializer };
