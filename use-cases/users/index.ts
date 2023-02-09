@@ -1,9 +1,7 @@
-// const create = require("./create");
-// const findOne = require("./findOne");
-// const findAll = require("./findAll");
-// const update = require("./update");
-// const remove = require("./remove");
-
 import create from "./create";
+import findAll from "./findAll";
+import findOne from "./findOne";
+import remove from "./remove";
+import update from "./update";
 
-export { create };
+export { create, findAll, findOne, remove, update };
