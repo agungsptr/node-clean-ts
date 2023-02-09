@@ -1,6 +1,6 @@
-const Joi = require("joi");
+import Joi from "joi";
 
-module.exports = Joi.object().keys({
+const schema = Joi.object().keys({
   name: Joi.string().required(),
   age: Joi.number(),
   grade: Joi.number(),
@@ -12,3 +12,5 @@ module.exports = Joi.object().keys({
   createdAt: Joi.date().timestamp(),
   updatedAt: Joi.date().timestamp(),
 });
+
+export default schema;
