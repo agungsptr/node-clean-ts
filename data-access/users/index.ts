@@ -13,8 +13,6 @@ class UsersDA extends DataAccess {
   ) {
     super(model, modelName, builder, serializer);
   }
-
-  
 }
 
 const usersDA = new UsersDA(UsersModel, "Users", builder, serializer);
