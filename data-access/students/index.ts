@@ -1,4 +1,4 @@
-import DataAccess from "../dataAccess";
+import { DataAccess } from "../dataAccess";
 import StudentsModel from "../../db/models/students.model";
 import { builder } from "../../models/student";
 import serializer from "./serializer";
@@ -15,6 +15,11 @@ class StudentsDA extends DataAccess {
   }
 }
 
-const studentsDA = new StudentsDA(StudentsModel, "Students", builder, serializer);
+const studentsDA = new StudentsDA(
+  StudentsModel,
+  "Students",
+  builder,
+  serializer
+);
 
 export default studentsDA;
