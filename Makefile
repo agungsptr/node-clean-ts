@@ -21,7 +21,7 @@ purge:
 	@docker image rm $(IMAGE):$(TAG) || true
 
 infra:
-	@node db/dbConfigGenerator.js $(NODE_ENV)
+	@yarn ts-node db/dbConfigGenerator.ts $(NODE_ENV)
 	@echo "Starting DB service..."
 	@TAG=$(TAG) $(COMPOSE) down -v || true
 	@TAG=$(TAG) $(COMPOSE) up -d --force-recreate db
