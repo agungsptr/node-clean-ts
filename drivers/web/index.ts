@@ -1,18 +1,17 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const compression = require("compression");
-const logger = require("morgan");
-const routes = require("./routes");
-const config = require("../../config");
-const cors = require("cors");
-const sanitize = require("sanitize");
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
+import express from "express";
+import * as bodyParser from "body-parser";
+import compression from "compression";
+import morgan from "morgan";
+import routes from "./routes";
+import cors from "cors";
+import config from "../../config";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 
 /** Set logger request */
-app.use(logger("dev"));
+app.use(morgan("dev"));
 
 /** Set cors */
 app.use(cors());
@@ -29,9 +28,6 @@ app.use(
 /** Bodyparser */
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-/** Sanitize */
-app.use(sanitize.middleware);
 
 /** Compression middleware */
 app.use(compression());
@@ -56,4 +52,4 @@ app.listen(config.APP_PORT, () => {
   console.log(`Listening on PORT: ${config.APP_PORT}`);
 });
 
-module.exports = app;
+export default app;
