@@ -1,23 +1,24 @@
-import usersDA from "../../../../data-access/users";
+import { ResponseMessage, StatusCode } from "../../../../commons/constants";
 import { responseWithError } from "../../../../commons/errors";
 import { responseBuilder, sanitizerPayload } from "../../../../commons/utils";
-import { StatusCode, ResponseMessage } from "../../../../commons/constants";
+import * as usersUC from "../../../../use-cases/users";
 
-async function create(req: any, res: any, next: any) {
+async function update(req: any, res: any, next: any) {
   try {
+    const { id } = req.params;
     const payload = sanitizerPayload(req.body);
-    const data = await usersDA.create(payload);
+    const data = await usersUC.update(id, payload);
     res.status(StatusCode.OK).send(
       responseBuilder({
         statusCode: StatusCode.OK,
-        message: ResponseMessage.Added,
+        message: ResponseMessage.Updated,
         data,
       })
     );
-    next();
+    return next();
   } catch (e) {
     responseWithError(res, e, StatusCode.BadRequest);
   }
 }
 
-export default create;
+export default update;

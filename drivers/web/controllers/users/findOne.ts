@@ -1,16 +1,16 @@
 import usersDA from "../../../../data-access/users";
 import { responseWithError } from "../../../../commons/errors";
-import { responseBuilder, sanitizerPayload } from "../../../../commons/utils";
+import { responseBuilder } from "../../../../commons/utils";
 import { StatusCode, ResponseMessage } from "../../../../commons/constants";
 
-async function create(req: any, res: any, next: any) {
+async function findOne(req: any, res: any, next: any) {
   try {
-    const payload = sanitizerPayload(req.body);
-    const data = await usersDA.create(payload);
+    const { id } = req.params;
+    const data = await usersDA.findOne(id);
     res.status(StatusCode.OK).send(
       responseBuilder({
         statusCode: StatusCode.OK,
-        message: ResponseMessage.Added,
+        message: ResponseMessage.Loaded,
         data,
       })
     );
@@ -20,4 +20,4 @@ async function create(req: any, res: any, next: any) {
   }
 }
 
-export default create;
+export default findOne;
