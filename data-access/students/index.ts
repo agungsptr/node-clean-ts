@@ -15,6 +15,6 @@ class StudentsDA extends DataAccess {
   }
 }
 
-const usersDA = new StudentsDA(StudentsModel, "Students", builder, serializer);
+const studentsDA = new StudentsDA(StudentsModel, "Students", builder, serializer);
 
-export default usersDA;
+export default studentsDA;
