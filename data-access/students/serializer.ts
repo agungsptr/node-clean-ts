@@ -1,6 +1,6 @@
-const { serializer } = require("../../commons/utils");
+import { serializer } from "../../commons/utils";
 
-const _serializeSingle = (data) => {
+function serializeSingle(data: Record<string, any>) {
   return {
     id: data._id,
     grade: data.grade,
@@ -11,6 +11,6 @@ const _serializeSingle = (data) => {
     createdAt: data.createdAt,
     updatedAt: data.updatedAt,
   };
-};
+}
 
-module.exports = serializer(_serializeSingle);
+export default serializer(serializeSingle);
