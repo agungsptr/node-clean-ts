@@ -6,10 +6,30 @@ import {
 } from "../commons/checks";
 import { QueryOP } from "../commons/constants";
 import { repackageError } from "../commons/errors";
-import { Model, ModelBuilder, Serializer } from "../commons/type";
+import { Data, Model, ModelBuilder, Serializer } from "../commons/type";
 import { queriesBuilder } from "../commons/utils";
 
-class DataAccess {
+interface DataAccessInterface {
+  create(payload: any): Promise<Data>;
+  findOne(id: string): Promise<Data>;
+  findOneBy(
+    queries: { eq?: Object; like?: Object },
+    options: { orderBy?: { [key: string]: SortOrder } }
+  ): Promise<Data>;
+  findAll(
+    queries: { eq?: Object; like?: Object },
+    options: {
+      orderBy?: { [key: string]: SortOrder };
+      limit: number;
+      skip: number;
+    }
+  ): Promise<{ data: Data; total: number }>;
+  update(id: string, payload: any): Promise<Data>;
+  remove(id: string): Promise<void>;
+  removeAll(): Promise<void>;
+}
+
+class DataAccess implements DataAccessInterface {
   protected model: Model;
   protected modelName: string;
   protected builder: ModelBuilder;
@@ -27,7 +47,7 @@ class DataAccess {
     this.serializer = serializer;
   }
 
-  async create(payload: any) {
+  async create(payload: any): Promise<Data> {
     try {
       const data = this.builder(payload);
       return this.model.create(data).then(this.serializer);
@@ -36,7 +56,7 @@ class DataAccess {
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Data> {
     try {
       ifFalseThrowError(isValidObjectId(id), "id is not valid");
       return this.model.findById(id).then(this.serializer);
@@ -48,7 +68,7 @@ class DataAccess {
   async findOneBy(
     queries: { eq?: Object; like?: Object },
     options: { orderBy?: { [key: string]: SortOrder } }
-  ) {
+  ): Promise<Data> {
     try {
       return this.model
         .findOne(queriesBuilder(QueryOP.EQ, queries.eq))
@@ -67,7 +87,7 @@ class DataAccess {
       limit: number;
       skip: number;
     }
-  ) {
+  ): Promise<{ data: Data; total: number }> {
     try {
       const data = await this.model
         .find(queriesBuilder(QueryOP.EQ, queries.eq))
@@ -95,7 +115,7 @@ class DataAccess {
       );
       const dataToUpdate = this.builder({ ...data, ...payload });
       await this.model.findByIdAndUpdate(id, dataToUpdate);
-      return { id, ...dataToUpdate };
+      return this.serializer({ id, ...dataToUpdate });
     } catch (e) {
       throw repackageError(e);
     }
@@ -110,7 +130,6 @@ class DataAccess {
         `Data with id: ${id} in ${this.modelName} is not found`
       );
       await this.model.findByIdAndDelete(id);
-      return null;
     } catch (e) {
       throw repackageError(e);
     }
@@ -125,4 +144,4 @@ class DataAccess {
   }
 }
 
-export default DataAccess;
+export { DataAccess, DataAccessInterface };
