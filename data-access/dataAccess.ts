@@ -1,5 +1,9 @@
-import mongoose, { isValidObjectId } from "mongoose";
-import { ifEmptyThrowError, ifFalseThrowError } from "../commons/checks";
+import { SortOrder } from "mongoose";
+import {
+  ifEmptyThrowError,
+  ifFalseThrowError,
+  isValidObjectId,
+} from "../commons/checks";
 import { QueryOP } from "../commons/constants";
 import { repackageError } from "../commons/errors";
 import { Model, ModelBuilder, Serializer } from "../commons/type";
@@ -43,7 +47,7 @@ class DataAccess {
 
   async findOneBy(
     queries: { eq?: Object; like?: Object },
-    options: { orderBy?: { [key: string]: mongoose.SortOrder } }
+    options: { orderBy?: { [key: string]: SortOrder } }
   ) {
     try {
       return this.model
@@ -59,7 +63,7 @@ class DataAccess {
   async findAll(
     queries: { eq?: Object; like?: Object },
     options: {
-      orderBy: { [key: string]: mongoose.SortOrder };
+      orderBy?: { [key: string]: SortOrder };
       limit: number;
       skip: number;
     }
@@ -118,7 +122,7 @@ class DataAccess {
     } catch (e) {
       throw repackageError(e);
     }
-  };
+  }
 }
 
 export default DataAccess;
