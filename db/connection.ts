@@ -1,5 +1,5 @@
 import config from "../config";
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 
 const username = config.mongo.MONGO_USER;
 const password = config.mongo.MONGO_PW;
@@ -12,7 +12,7 @@ mongoose.set("strictQuery", false);
 
 /** Signal connection */
 mongoose.connection
-  .once("open", () => {
+  .once("open", (): void => {
     if (!config.isTest) console.log("Database connection has been established");
   })
   .on("error", (error) => {

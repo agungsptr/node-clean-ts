@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const UsersSchema = new Schema({
   firstName: String,
   lastName: String,
-  username: String,
+  username: { type: String, index: true, unique: true },
   password: String,
   secretUuid: { type: String, default: uuid.v4() },
   createdAt: { type: Date, default: Date.now },
@@ -19,6 +19,6 @@ UsersSchema.pre("save", async function () {
   }
 });
 
-const Users = mongoose.model("Users", UsersSchema);
+const UsersModel = mongoose.model("Users", UsersSchema);
 
-export default Users;
+export default UsersModel;

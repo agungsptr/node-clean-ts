@@ -1,9 +1,9 @@
 import Students from "../models/students.model";
-import Users from "../models/users.model";
+import UsersModel from "../models/users.model";
 
 /** Seeder data */
 async function seedDatabase(): Promise<void> {
-  const user = await Users.findOne({ username: { $eq: "agungsptr" } });
+  const user = await UsersModel.findOne({ username: { $eq: "agungsptr" } });
   if (!user) return;
 
   const data = [

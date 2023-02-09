@@ -1,5 +1,5 @@
 import { hashPassword } from "../../commons/utils";
-import Users from "../models/users.model";
+import UsersModel from "../models/users.model";
 
 /** Seeder data */
 async function seedDatabase(): Promise<void> {
@@ -12,7 +12,7 @@ async function seedDatabase(): Promise<void> {
     },
   ];
 
-  await Users.insertMany(data);
+  await UsersModel.insertMany(data);
   console.log("User has beed seeded");
 }
 
