@@ -1,6 +1,4 @@
-// const { Router } = require("express");
 // const students = require("./students");
-// const users = require("./users");
 // const auth = require("./auth");
 
 import { Router } from "express";

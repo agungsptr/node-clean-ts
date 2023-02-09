@@ -15,7 +15,15 @@ type User = {
 };
 
 function builder(payload: any) {
-  const { error, value } = validatorSchema(UserSchema)(payload);
+  const { error, value } = validatorSchema(UserSchema)({
+    firstName: payload.firstName,
+    lastName: payload.lastName,
+    username: payload.username,
+    password: payload.password,
+    secretUuid: payload.secretUuid,
+    createdAt: payload.createdAt,
+    updatedAt: payload.updatedAt,
+  });
   if (error.length > 0) throw new CustomError(error);
   return value;
 }
