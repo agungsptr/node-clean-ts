@@ -1,6 +1,6 @@
-const chai = require("chai");
+import { builder } from ".";
+import chai from "chai";
 const expect = chai.expect;
-const builder = require("./index");
 
 describe("models/student", () => {
   it("throw error if name not found", () => {
@@ -14,7 +14,7 @@ describe("models/student", () => {
           username: "user",
         },
       });
-    }).to.throw("\"name\" is required");
+    }).to.throw('"name" is required');
   });
 
   it("throw error if grade wrong data type", () => {
@@ -29,7 +29,7 @@ describe("models/student", () => {
           username: "user",
         },
       });
-    }).to.throw("\"grade\" must be a number");
+    }).to.throw('"grade" must be a number');
   });
 
   it("throw error if age wrong data type", () => {
@@ -44,7 +44,7 @@ describe("models/student", () => {
           username: "user",
         },
       });
-    }).to.throw("\"age\" must be a number");
+    }).to.throw('"age" must be a number');
   });
 
   it("throw error if perfect wrong data type", () => {
@@ -59,19 +59,17 @@ describe("models/student", () => {
           username: "user",
         },
       });
-    }).to.throw("\"perfect\" must be a boolean");
+    }).to.throw('"perfect" must be a boolean');
   });
 
   it("sets perfect to false by default", () => {
     const student = builder({
-      name: "howie",
       createdBy: {
         userId: "63587db7dc752a40e09721d7",
         username: "user-editor",
       },
+      name: "howie",
     });
-    const input = student.perfect;
-    const actual = false;
-    expect(input).to.equal(actual);
+    expect(Object(student).perfect).to.equal(false);
   });
 });

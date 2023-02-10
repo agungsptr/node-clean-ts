@@ -1,6 +1,6 @@
-const chai = require("chai");
+import { builder } from ".";
+import chai from "chai";
 const expect = chai.expect;
-const builder = require("./index");
 
 describe("models/user", () => {
   it("throw error if firstName not found", () => {

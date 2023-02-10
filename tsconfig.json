@@ -99,5 +99,16 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
-  }
+  },
+  "include": [
+    "commons/**/*",
+    "config/**/*",
+    "data-access/**/*",
+    "db/**/*",
+    "drivers/**/*",
+    "models/**/*",
+    "models/**/*",
+    "use-cases/**/*"
+  ],
+  "exclude": ["**/*.spec.ts", "db/dbConfigGenerator.ts"]
 }

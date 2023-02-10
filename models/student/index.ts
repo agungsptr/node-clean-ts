@@ -18,7 +18,15 @@ type Student = {
 };
 
 function builder(payload: any) {
-  const { error, value } = validatorSchema(StudentSchema)(payload);
+  const { error, value } = validatorSchema(StudentSchema)({
+    name: payload.name,
+    age: payload.age,
+    grade: payload.grade,
+    perfect: payload.perfect,
+    createdBy: payload.createdBy,
+    createdAt: payload.createdAt,
+    updatedAt: payload.updatedAt,
+  });
   if (error.length > 0) throw new CustomError(error);
   return value;
 }

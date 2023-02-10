@@ -12,7 +12,7 @@
     "grpc_client": "NODE_ENV=test node ./dist/drivers/grpc/client-examples",
     "seed": "ts-node ./db/seeds",
     "lint": "eslint .",
-    "test": "NODE_ENV=test mocha --exclude ./node_modules/**/*.spec.ts --exit ./**/*.spec.ts",
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' NODE_ENV=test mocha -r ts-node/register --exit './**/*.spec.ts'",
     "coverage_test": "NODE_ENV=test nyc --reporter=text npm run test",
     "load_test": "NODE_ENV=test artillery run --dotenv ./.env --output ./test/output/loadTest.json ./test/loadTest.yml",
     "load_test-result": "artillery report --output ./test/output/report.html ./test/output/loadTest.json"
@@ -68,6 +68,9 @@
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"

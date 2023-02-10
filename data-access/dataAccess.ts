@@ -67,7 +67,9 @@ class DataAccess implements DataAccessInterface {
 
   async findOneBy(
     queries: { eq?: Object; like?: Object },
-    options: { orderBy?: { [key: string]: SortOrder } }
+    options: { orderBy?: { [key: string]: SortOrder } } = {
+      orderBy: { createdAt: 1 },
+    }
   ): Promise<Data> {
     try {
       return this.model
@@ -81,12 +83,12 @@ class DataAccess implements DataAccessInterface {
   }
 
   async findAll(
-    queries: { eq?: Object; like?: Object },
+    queries: { eq?: Object; like?: Object } = {},
     options: {
       orderBy?: { [key: string]: SortOrder };
       limit: number;
       skip: number;
-    }
+    } = { orderBy: { createdAt: 1 }, limit: 10, skip: 0 }
   ): Promise<{ data: Data[]; total: number }> {
     try {
       const data = await this.model
