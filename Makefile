@@ -70,7 +70,8 @@ grpc_client:
 # Database
 seed:
 	@echo "Seeding database..."
-	@NODE_ENV=test node ./db/seeds/index.js
+	@make -s wait-db
+	@yarn seed
 	@echo "Seed done."
 
 # Test

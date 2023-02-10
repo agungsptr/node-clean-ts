@@ -6,6 +6,7 @@ import { StatusCode, ResponseMessage } from "../../../../commons/constants";
 async function create(req: any, res: any, next: any) {
   try {
     const payload = sanitizerPayload(req.body);
+    payload.createdBy = req.user;
     const data = await studentsUC.create(payload);
     res.status(StatusCode.OK).send(
       responseBuilder({

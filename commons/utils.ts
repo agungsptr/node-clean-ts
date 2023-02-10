@@ -131,7 +131,7 @@ function validatorSchema(schema: Joi.Schema) {
 }
 
 async function paginationBuilder(
-  loader: (skip: number) => Promise<{ data: Data; total: number }>,
+  loader: (skip: number) => Promise<{ data: Data[]; total: number }>,
   limit: number = 10,
   page: number = 1
 ) {

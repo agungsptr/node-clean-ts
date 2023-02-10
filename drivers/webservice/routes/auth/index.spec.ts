@@ -1,13 +1,16 @@
-const chai = require("chai");
-const chaiAsPromised = require("chai-as-promised");
-const request = require("supertest");
-const usersDa = require("../../../../data-access/users");
-const setup = require("../../../../test/setup");
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import request from "supertest";
+import { Express } from "express";
+import * as usersUC from "../../../../use-cases/users";
+import usersDA from "../../../../data-access/users";
+import * as setup from "../../../../test/setup";
+import { Data } from "../../../../commons/type";
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-let app, user, auth;
+let app: Express, user: Data, auth: any;
 const API_URL = "/api/auth";
 
 describe("routes/auth", () => {
@@ -16,8 +19,8 @@ describe("routes/auth", () => {
   });
 
   beforeEach(async () => {
-    await usersDa.removeAll();
-    user = await usersDa.create({
+    await usersDA.removeAll();
+    user = await usersUC.create({
       firstName: "agung",
       lastName: "saputra",
       username: "agungsptr",
@@ -27,20 +30,20 @@ describe("routes/auth", () => {
     auth = await request(app)
       .post(`${API_URL}/login`)
       .send({
-        username: user.username,
+        username: Object(user).username,
         password: "24434",
       })
       .then((res) => res.body.data);
   });
 
   afterEach(async () => {
-    await usersDa.removeAll();
+    await usersDA.removeAll();
   });
 
   it(`LOGIN ${API_URL}/login`, async () => {
     const req = await request(app)
       .post(`${API_URL}/login`)
-      .send({ username: user.username, password: "24434" });
+      .send({ username: Object(user).username, password: "24434" });
 
     expect(req.statusCode).to.eql(200);
   });
@@ -48,7 +51,7 @@ describe("routes/auth", () => {
   it("LOGIN with wrong password", async () => {
     const req = await request(app)
       .post(`${API_URL}/login`)
-      .send({ username: user.username, password: "wrong" });
+      .send({ username: Object(user).username, password: "wrong" });
 
     expect(req.statusCode).to.eql(401);
   });
@@ -56,7 +59,7 @@ describe("routes/auth", () => {
   it("LOGIN without username or password", async () => {
     const req = await request(app)
       .post(`${API_URL}/login`)
-      .send({ username: user.username });
+      .send({ username: Object(user).username });
 
     expect(req.statusCode).to.eql(400);
   });
@@ -76,7 +79,7 @@ describe("routes/auth", () => {
   });
 
   it("LOGOUT with deleted user", async () => {
-    await usersDa.removeAll();
+    await usersDA.removeAll();
     const req = await request(app)
       .post(`${API_URL}/logout`)
       .set("Authorization", auth.token)

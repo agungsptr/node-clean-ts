@@ -1,13 +1,15 @@
-const chai = require("chai");
-const chaiAsPromised = require("chai-as-promised");
-const request = require("supertest");
-const usersDa = require("../../../../data-access/users");
-const setup = require("../../../../test/setup");
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import request from "supertest";
+import { Express } from "express";
+import usersDA from "../../../../data-access/users";
+import * as setup from "../../../../test/setup";
+import { Data } from "../../../../commons/type";
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-let app, user, auth;
+let app: Express, user: Data, auth: any;
 const API_URL = "/api/user";
 
 describe("routes/users", () => {
@@ -16,8 +18,8 @@ describe("routes/users", () => {
   });
 
   beforeEach(async () => {
-    await usersDa.removeAll();
-    user = await usersDa.create({
+    await usersDA.removeAll();
+    user = await usersDA.create({
       firstName: "agung",
       lastName: "saputra",
       username: "agungsptr",
@@ -27,14 +29,14 @@ describe("routes/users", () => {
     auth = await request(app)
       .post("/api/auth/login")
       .send({
-        username: user.username,
+        username: Object(user).username,
         password: "24434",
       })
       .then((res) => res.body.data);
   });
 
   afterEach(async () => {
-    await usersDa.removeAll();
+    await usersDA.removeAll();
   });
 
   it(`GET ${API_URL}s`, async () => {
@@ -48,9 +50,10 @@ describe("routes/users", () => {
   });
 
   it(`GET ${API_URL}/:id`, async () => {
-    const list = await usersDa.findAll();
+    const list = await usersDA.findAll();
+    const data = Object(list.data[0]);
     const req = await request(app)
-      .get(`${API_URL}/${list.data[0].id}`)
+      .get(`${API_URL}/${data.id}`)
       .set("Authorization", auth.token)
       .send();
     const expectVal = {
@@ -61,8 +64,8 @@ describe("routes/users", () => {
 
     expect(req.statusCode).to.eql(200);
     expect(expectVal).to.eql({
-      ...list.data[0],
-      id: list.data[0].id.valueOf(),
+      ...data,
+      id: data.id.valueOf(),
     });
   });
 
@@ -86,28 +89,30 @@ describe("routes/users", () => {
   });
 
   it(`PATCH ${API_URL}/:id`, async () => {
-    const list = await usersDa.findAll();
+    const list = await usersDA.findAll();
+    const data = Object(list.data[0]);
     const dataToUpdate = {
       firstName: "agung2-edit",
       lastName: "saputra2-edit",
     };
     const req = await request(app)
-      .patch(`${API_URL}/${list.data[0].id}`)
+      .patch(`${API_URL}/${data.id}`)
       .set("Authorization", auth.token)
       .send(dataToUpdate);
     const result = req.body.data;
 
     expect(req.statusCode).to.eql(200);
-    expect(result.name).to.eql(dataToUpdate.name);
+    expect(result.firstName).to.eql(dataToUpdate.firstName);
   });
 
   it(`DELETE ${API_URL}/:id`, async () => {
-    const list = await usersDa.findAll();
+    const list = await usersDA.findAll();
+    const data = Object(list.data[0]);
     const req = await request(app)
-      .delete(`${API_URL}/${list.data[0].id}`)
+      .delete(`${API_URL}/${data.id}`)
       .set("Authorization", auth.token)
       .send();
-    const updatedList = await usersDa.findAll();
+    const updatedList = await usersDA.findAll();
 
     expect(req.statusCode).to.eql(200);
     expect(updatedList.total).to.eql(0);
