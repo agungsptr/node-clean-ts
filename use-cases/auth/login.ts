@@ -1,15 +1,14 @@
-const users = require("../../data-access/users");
-const {
+import Joi from "joi";
+import CustomError from "../../commons/customError";
+import {
   comparePassword,
+  getExpiredToken,
   issueJwt,
   validatorSchema,
-} = require("../../commons/utils");
-const jwt = require("jsonwebtoken");
-const moment = require("moment");
-const Joi = require("joi");
-const CustomError = require("../../commons/customError");
+} from "../../commons/utils";
+import usersDA from "../../data-access/users";
 
-const login = async (payload) => {
+async function login(payload: any) {
   const { username, password } = payload;
 
   const schema = Joi.object({
@@ -19,20 +18,20 @@ const login = async (payload) => {
   const { error } = validatorSchema(schema)(payload);
   if (error.length > 0) throw new CustomError(error);
 
-  const user = await users.findUserCredential({ username });
+  const user = await usersDA.findUserCredential({ username });
   if (user) {
     if (await comparePassword(password, user.password)) {
       const token = issueJwt(
-        { id: user.id, username: user.username },
+        { id: user.id, username: user.password },
         user.secretUuid
       );
       return {
-        expired: moment.unix(jwt.decode(token).exp),
+        expired: getExpiredToken(token),
         token: `Bearer ${token}`,
       };
     }
   }
   return false;
-};
+}
 
-module.exports = login;
+export default login;
