@@ -56,7 +56,7 @@
 </details>
 
 ## About The Project
-This a TypeScript version of Node Clean, if you want to see the JavaScript version follow this [way](https://github.com/agungsptr/node-clean).
+**This a TypeScript version of Node Clean**, if you want to see the JavaScript version follow this [way](https://github.com/agungsptr/node-clean).
 
 
 This project aims to be used as a base backend project which implements clean architecture.
