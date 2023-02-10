@@ -84,12 +84,12 @@ describe("routes/auth", () => {
       .post(`${API_URL}/logout`)
       .set("Authorization", auth.token)
       .send();
-    expect(req.statusCode).to.eql(400);
+    expect(req.statusCode).to.eql(401);
   });
 
   it("LOGOUT without token", async () => {
     const req = await request(app).post(`${API_URL}/logout`).send();
-    expect(req.statusCode).to.eql(400);
+    expect(req.statusCode).to.eql(401);
   });
 
   it("LOGOUT with invalid userId in token", async () => {
@@ -101,6 +101,6 @@ describe("routes/auth", () => {
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMSIsInVzZXJuYW1lIjoiYWd1bmdzcHRyIiwiaWF0IjoxNjY3NzI3Njk4LCJleHAiOjE2Njc4MTQwOTh9.gal5Y7l074x-TuxBP2lGt7_QVAbzX3h2I18WPZnYKBw"
       )
       .send();
-    expect(req.statusCode).to.eql(400);
+    expect(req.statusCode).to.eql(401);
   });
 });
