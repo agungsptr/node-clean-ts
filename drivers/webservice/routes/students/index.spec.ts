@@ -104,7 +104,6 @@ describe("routes/students", () => {
       .set("Authorization", auth.token)
       .send(data);
     const result = req.body.data;
-    console.log(req.body);
 
     expect(req.statusCode).to.eql(200);
     expect(result.grade).to.eql(data.grade);
