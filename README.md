@@ -1,6 +1,6 @@
 <br />
 <div align="center">
-  <h2 align="center" style="font-size:8vw;">Node Clean</h2>
+  <h2 align="center" style="font-size:8vw;">Node Clean TypeScript</h2>
 
   <p align="center">
     A Node.js project template with clean architecture implementation
@@ -9,13 +9,13 @@
     <br />
     <br />
     <a href="https://github.com/agungsptr/node-clean/stargazers">
-      <img src="https://img.shields.io/github/stars/agungsptr/node-clean.svg">
+      <img src="https://img.shields.io/github/stars/agungsptr/node-clean-ts.svg">
     </a>
     <a href="https://github.com/agungsptr/node-clean/network">
-      <img src="https://img.shields.io/github/forks/agungsptr/node-clean.svg?color=blue">
+      <img src="https://img.shields.io/github/forks/agungsptr/node-clean-ts.svg?color=blue">
     </a>
     <a href="https://github.com/agungsptr/node-clean/network">
-      <img src="https://img.shields.io/github/contributors/agungsptr/node-clean.svg?color=blue">
+      <img src="https://img.shields.io/github/contributors/agungsptr/node-clean-ts.svg?color=blue">
     </a>
   </p>
 </div>
@@ -56,6 +56,8 @@
 </details>
 
 ## About The Project
+This a TypeScript version of Node Clean, if you want to see the JavaScript version follow this [way](https://github.com/agungsptr/node-clean).
+
 
 This project aims to be used as a base backend project which implements clean architecture.
 I create this project to help me build a backend application faster as a template project.
@@ -99,7 +101,7 @@ Before you dig into this project it very nice if you understand the clean archit
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/agungsptr/node-clean.git
+   git clone https://github.com/agungsptr/node-clean-ts.git
    ```
 
 2. Install Yarn packages
@@ -135,7 +137,7 @@ Follow this instruction if you do not use `docker` or in `Windows` or if you hav
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/agungsptr/node-clean.git
+   git clone https://github.com/agungsptr/node-clean-ts.git
    ```
 
 2. Make sure that you have installed `Node`, `Yarn`, and `Mongodb` in your local
@@ -373,7 +375,7 @@ Distributed under the MIT License. See [LICENSE](./LICENSE) for more information
 
 Agung Saputra - agung.e.sptr@gmail.com
 
-Project Link: [here](https://github.com/agungsptr/node-clean)
+Project Link: [here](https://github.com/agungsptr/node-clean-ts)
 
 ## Acknowledgments
 
@@ -389,6 +391,8 @@ Resources that help me to build this project.
 * [gRPC Intoduction](https://grpc.io/docs/what-is-grpc/introduction)
 * [gRPC Node Quick Start](https://grpc.io/docs/languages/node/quickstart)
 * [Understanding Protocol Buffers](https://betterprogramming.pub/understanding-protocol-buffers-43c5bced0d47)
+* [Official TypeScrip Doc](https://www.typescriptlang.org/docs)
+* [Learn Typescript at freecodecamp](https://www.youtube.com/watch?v=30LWjhZzg50)
 
 ## Support Me
 
