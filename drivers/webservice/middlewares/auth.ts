@@ -47,7 +47,7 @@ async function auth(req: any, res: any, next: any) {
     }
     unAuthRes(res);
   } catch (e) {
-    responseWithError(res, e, StatusCode.BadRequest);
+    responseWithError(res, e, StatusCode.Unauthorized);
   }
 }
 
