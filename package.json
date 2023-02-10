@@ -12,7 +12,7 @@
     "grpc_client": "NODE_ENV=test node ./dist/drivers/grpc/client-examples",
     "seed": "NODE_ENV=test ts-node ./db/seeds",
     "lint": "eslint .",
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' NODE_ENV=test mocha -r ts-node/register --exit './**/*.spec.ts'",
+    "test": "NODE_ENV=test mocha -r ts-node/register --exit --exclude ./node_modules/**/*.spec.ts ./**/*.spec.ts",
     "coverage_test": "NODE_ENV=test nyc --reporter=text npm run test",
     "load_test": "NODE_ENV=test artillery run --dotenv ./.env --output ./test/output/loadTest.json ./test/loadTest.yml",
     "load_test-result": "artillery report --output ./test/output/report.html ./test/output/loadTest.json"
