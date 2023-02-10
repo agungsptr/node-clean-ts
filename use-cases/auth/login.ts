@@ -1,4 +1,5 @@
 import Joi from "joi";
+import moment from "moment";
 import CustomError from "../../commons/customError";
 import {
   comparePassword,
@@ -26,6 +27,7 @@ async function login(payload: any) {
         user.secretUuid
       );
       return {
+        loggedIn: moment().toISOString(),
         expired: getExpiredToken(token),
         token: `Bearer ${token}`,
       };

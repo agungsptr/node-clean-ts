@@ -1,5 +1,5 @@
-import * as bcrypt from "bcrypt";
-import * as jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import config from "../config";
 import { QueryOP, Status, StatusCode } from "./constants";
 import { Data, Page, Response } from "./type";
@@ -70,10 +70,10 @@ function issueJwt(payload: Object, userSecretUuid: string = ""): string {
   });
 }
 
-function tokenSplitter(token: string): Array<string> | boolean {
+function tokenSplitter(token: string): Array<string> | undefined {
   const splitted = token.split(" ");
   if (!token || (splitted && splitted.length !== 2)) {
-    return false;
+    return undefined;
   }
   return splitted;
 }
@@ -84,7 +84,7 @@ function verifyJwt(
   cb: (
     decoded: jwt.JwtPayload | jwt.Jwt | undefined | string,
     errorMessage: string | undefined
-  ) => never
+  ) => void
 ): void {
   const secretKey = `${config.jwt.secretKey}${userSecretUuid}`;
   return jwt.verify(

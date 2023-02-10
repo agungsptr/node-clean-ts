@@ -45,6 +45,7 @@ class UsersDA extends DataAccess {
 
   async findUserCredential(queries: Record<string, any>): Promise<{
     id: string;
+    username: string;
     password: string;
     secretUuid: string;
   }> {
@@ -58,6 +59,7 @@ class UsersDA extends DataAccess {
           if (user) {
             return {
               id: user._id,
+              username: user.username,
               password: user.password,
               secretUuid: user.secretUuid,
             };
