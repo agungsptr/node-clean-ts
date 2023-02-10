@@ -6,7 +6,7 @@
   "repository": "https://github.com/agungsptr/node-clean-ts.git",
   "scripts": {
     "start": "node ./dist/drivers/webservice",
-    "dev": "nodemon ./drivers/webservice/index.ts",
+    "dev": "nodemon ./drivers/webservice",
     "tsc": "tsc",
     "grpc": "nodemon ./dist/drivers/grpc",
     "grpc_client": "NODE_ENV=test node ./dist/drivers/grpc/client-examples",
