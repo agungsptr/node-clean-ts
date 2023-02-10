@@ -1,7 +1,7 @@
-import { ResponseMessage, StatusCode } from "../../../../commons/constants";
+import * as studentsUC from "../../../../use-cases/students";
 import { responseWithError } from "../../../../commons/errors";
 import { responseBuilder } from "../../../../commons/utils";
-import * as studentsUC from "../../../../use-cases/students";
+import { StatusCode, ResponseMessage } from "../../../../commons/constants";
 
 async function remove(req: any, res: any, next: any) {
   try {
@@ -14,9 +14,9 @@ async function remove(req: any, res: any, next: any) {
         message: ResponseMessage.Removed,
       })
     );
-    return next();
+    next();
   } catch (e) {
-    return responseWithError(res, e, StatusCode.BadRequest);
+    responseWithError(res, e, StatusCode.BadRequest);
   }
 }
 

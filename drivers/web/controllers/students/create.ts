@@ -1,4 +1,4 @@
-import studentsDA from "../../../../data-access/students";
+import * as studentsUC from "../../../../use-cases/students";
 import { responseWithError } from "../../../../commons/errors";
 import { responseBuilder, sanitizerPayload } from "../../../../commons/utils";
 import { StatusCode, ResponseMessage } from "../../../../commons/constants";
@@ -6,7 +6,7 @@ import { StatusCode, ResponseMessage } from "../../../../commons/constants";
 async function create(req: any, res: any, next: any) {
   try {
     const payload = sanitizerPayload(req.body);
-    const data = await studentsDA.create(payload);
+    const data = await studentsUC.create(payload);
     res.status(StatusCode.OK).send(
       responseBuilder({
         statusCode: StatusCode.OK,
