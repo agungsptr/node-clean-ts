@@ -5,10 +5,11 @@ COMPOSE := docker-compose -f build/$(NODE_ENV)/docker-compose.yml --log-level ER
 
 # Infrastructure
 build:
+	@yarn tsc
 	docker build -t $(IMAGE):$(TAG) .
 
 compose-up:
-	@node db/dbConfigGenerator.js $(NODE_ENV)
+	@yarn ts-node db/dbConfigGenerator.ts $(NODE_ENV)
 	@echo "Starting services..."
 	@TAG=$(TAG) $(COMPOSE) down -v || true
 	@TAG=$(TAG) $(COMPOSE) up -d --force-recreate

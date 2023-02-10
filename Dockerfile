@@ -17,14 +17,7 @@ ENV RATE_LIMIT_MAX=$RATE_LIMIT_MAX
 ENV RATE_LIMIT_MINUTE=$RATE_LIMIT_MINUTE
 ENV GRPC_PORT=$GRPC_PORT
 
-COPY commons /app/commons
-COPY config /app/config
-COPY data-access /app/data-access
-COPY db /app/db
-COPY drivers /app/drivers
-COPY models /app/models
-COPY test /app/test
-COPY use-cases /app/use-cases
+COPY dist /app
 COPY package.json /app
 COPY scripts/start.sh /app
 COPY scripts/start.dev.sh /app
