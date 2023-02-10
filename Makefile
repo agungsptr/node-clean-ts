@@ -57,6 +57,7 @@ wait-app:
 
 # Application
 start:
+	@yarn tsc
 	@yarn start
 
 dev:
