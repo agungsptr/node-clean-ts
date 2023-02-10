@@ -38,6 +38,8 @@ auto:
 	@echo "Starting unit test..."
 	@yarn test
 	@echo "Finished checking\n"
+	@echo "Compiling typescript..."
+	@yarn tsc
 	@echo "Building docker image..."
 	docker build -q -t $(IMAGE):$(TAG) .
 	@make -s compose-up
