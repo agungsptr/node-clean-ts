@@ -19,12 +19,12 @@ type Response = {
   page?: Page;
 };
 
-type Data = Object | Array<Object> | null;
+type Data = Object | null;
 
 type ModelBuilder = (payload: any) => Joi.AnySchema<any> | undefined;
 
 type Model = mongoose.Model<any>;
 
-type Serializer = (payload: any) => Data;
+type Serializer = (payload: any) => Object;
 
 export { Page, Response, ModelBuilder, Model, Serializer, Data };

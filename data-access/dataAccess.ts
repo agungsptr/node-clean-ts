@@ -87,7 +87,7 @@ class DataAccess implements DataAccessInterface {
       limit: number;
       skip: number;
     }
-  ): Promise<{ data: Data; total: number }> {
+  ): Promise<{ data: Data[]; total: number }> {
     try {
       const data = await this.model
         .find(queriesBuilder(QueryOP.EQ, queries.eq))
@@ -95,7 +95,7 @@ class DataAccess implements DataAccessInterface {
         .sort(options.orderBy)
         .limit(options.limit)
         .skip(options.skip)
-        .then(this.serializer);
+        .then((list) => list.map((d) => this.serializer(d)));
       const total = await this.model
         .count(queriesBuilder(QueryOP.EQ, queries.eq))
         .count(queriesBuilder(QueryOP.LIKE, queries.like));
@@ -105,7 +105,7 @@ class DataAccess implements DataAccessInterface {
     }
   }
 
-  async update(id: string, payload: any) {
+  async update(id: string, payload: any): Promise<Data> {
     try {
       ifFalseThrowError(isValidObjectId(id), "id is not valid");
       const data = await this.model.findById(id).then(this.serializer);

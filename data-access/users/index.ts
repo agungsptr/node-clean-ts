@@ -2,7 +2,7 @@ import { DataAccess } from "../dataAccess";
 import UsersModel from "../../db/models/users.model";
 import { builder } from "../../models/user";
 import serializer from "./serializer";
-import { Model, ModelBuilder, Serializer } from "../../commons/type";
+import { Data, Model, ModelBuilder, Serializer } from "../../commons/type";
 import { ifFalseThrowError, isValidObjectId } from "../../commons/checks";
 import { hashPassword, queriesBuilder } from "../../commons/utils";
 import { QueryOP } from "../../commons/constants";
@@ -19,7 +19,7 @@ class UsersDA extends DataAccess {
     super(model, modelName, builder, serializer);
   }
 
-  async update(id: string, payload: any) {
+  async update(id: string, payload: any): Promise<Data> {
     try {
       ifFalseThrowError(isValidObjectId(id), "id is not valid");
       const data = await this.model.findById(id);
@@ -43,7 +43,11 @@ class UsersDA extends DataAccess {
     }
   }
 
-  async findUserCredential(queries: Record<string, any>) {
+  async findUserCredential(queries: Record<string, any>): Promise<{
+    id: string;
+    password: string;
+    secretUuid: string;
+  }> {
     try {
       if ("_id" in queries) {
         ifFalseThrowError(isValidObjectId(queries._id), "id is not valid");
@@ -53,7 +57,7 @@ class UsersDA extends DataAccess {
         .then((user) => {
           if (user) {
             return {
-              ...this.serializer(user),
+              id: user._id,
               password: user.password,
               secretUuid: user.secretUuid,
             };

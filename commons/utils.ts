@@ -4,6 +4,7 @@ import config from "../config";
 import { QueryOP, Status, StatusCode } from "./constants";
 import { Data, Page, Response } from "./type";
 import Joi from "joi";
+import moment from "moment";
 
 function responseBuilder({
   statusCode,
@@ -42,7 +43,6 @@ function queriesBuilder(eqlType: QueryOP, queries?: Object): Object {
 
 function serializer(single: (data: Record<string, any>) => Object) {
   return (data: any) => {
-    if (!data) return null;
     if (Array.isArray(data)) {
       return data.map(single);
     }
@@ -172,6 +172,11 @@ function objBuilder(data: Object | null): Object {
   return obj;
 }
 
+function getExpiredToken(token: string) {
+  const decoded: any = jwt.decode(token);
+  return moment.unix(decoded.exp);
+}
+
 export {
   responseBuilder,
   queriesBuilder,
@@ -185,4 +190,5 @@ export {
   validatorSchema,
   paginationBuilder,
   objBuilder,
+  getExpiredToken,
 };
