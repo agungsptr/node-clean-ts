@@ -34,8 +34,8 @@ describe("routes/students", () => {
       grade: 3,
       perfect: true,
       createdBy: {
-        userId: `${Object(user).id}`,
-        username: Object(user).username,
+        userId: user.id?.toString(),
+        username: user.username,
       },
     });
     await studentsUC.create({
@@ -44,15 +44,15 @@ describe("routes/students", () => {
       grade: 3,
       perfect: false,
       createdBy: {
-        userId: `${Object(user).id}`,
-        username: Object(user).username,
+        userId: user.id?.toString(),
+        username: user.username,
       },
     });
 
     auth = await request(app)
       .post("/api/auth/login")
       .send({
-        username: Object(user).username,
+        username: user.username,
         password: "24434",
       })
       .then((res) => res.body.data);
@@ -74,9 +74,9 @@ describe("routes/students", () => {
 
   it(`GET ${API_URL}/:id`, async () => {
     const list = await studentsUC.findAll();
-    const data = Object(list.data[0]);
+    const data = list.data[0];
     const req = await request(app)
-      .get(`${API_URL}/${data.id}`)
+      .get(`${API_URL}/${data.id!}`)
       .set("Authorization", auth.token)
       .send();
     const expectVal = {
@@ -88,7 +88,7 @@ describe("routes/students", () => {
     expect(req.statusCode).to.eql(200);
     expect(expectVal).to.eql({
       ...data,
-      id: data.id.valueOf(),
+      id: data.id!.valueOf(),
     });
   });
 
@@ -112,7 +112,7 @@ describe("routes/students", () => {
 
   it(`PATCH ${API_URL}/:id`, async () => {
     const list = await studentsUC.findAll();
-    const data = Object(list.data[0]);
+    const data = list.data[0];
     const dataToUpdate = {
       grade: 2,
       name: "agungsptr-edit",
@@ -120,7 +120,7 @@ describe("routes/students", () => {
       perfect: false,
     };
     const req = await request(app)
-      .patch(`${API_URL}/${data.id}`)
+      .patch(`${API_URL}/${data.id!}`)
       .set("Authorization", auth.token)
       .send(dataToUpdate);
     const result = req.body.data;
@@ -131,9 +131,9 @@ describe("routes/students", () => {
 
   it(`DELETE ${API_URL}/:id`, async () => {
     const list = await studentsUC.findAll();
-    const data = Object(list.data[0]);
+    const data = list.data[0];
     const req = await request(app)
-      .delete(`${API_URL}/${data.id}`)
+      .delete(`${API_URL}/${data.id!}`)
       .set("Authorization", auth.token)
       .send();
     const updatedList = await studentsUC.findAll();

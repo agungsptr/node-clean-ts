@@ -46,12 +46,7 @@ class UsersDA extends DataAccess<User> {
 
   async findUserCredential(
     queries: Record<string, string | number | boolean>
-  ): Promise<{
-    id: string;
-    username: string;
-    password: string;
-    secretUuid: string;
-  }> {
+  ): Promise<User> {
     try {
       if ("_id" in queries) {
         ifFalseThrowError(
@@ -61,17 +56,9 @@ class UsersDA extends DataAccess<User> {
       }
       return this.model
         .findOne(queriesBuilder(QueryOP.EQ, queries))
-        .then((user) => {
-          if (user) {
-            return {
-              id: user._id,
-              username: user.username,
-              password: user.password,
-              secretUuid: user.secretUuid,
-            };
-          } else {
-            throw new CustomError("Users is not found");
-          }
+        .then((data) => {
+          if (data) return data;
+          throw new CustomError("Users is not found");
         });
     } catch (e) {
       throw repackageError(e);

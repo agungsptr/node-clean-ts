@@ -21,7 +21,7 @@ async function login(payload: any) {
 
   const user = await usersDA.findUserCredential({ username });
   if (user) {
-    if (await comparePassword(password, user.password)) {
+    if (await comparePassword(password, user.password!)) {
       const token = issueJwt(
         { id: user.id, username: user.password },
         user.secretUuid

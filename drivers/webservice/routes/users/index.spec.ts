@@ -29,7 +29,7 @@ describe("routes/users", () => {
     auth = await request(app)
       .post("/api/auth/login")
       .send({
-        username: Object(user).username,
+        username: user.username,
         password: "24434",
       })
       .then((res) => res.body.data);
@@ -51,7 +51,7 @@ describe("routes/users", () => {
 
   it(`GET ${API_URL}/:id`, async () => {
     const list = await usersDA.findAll();
-    const data = Object(list.data[0]);
+    const data = list.data[0];
     const req = await request(app)
       .get(`${API_URL}/${data.id}`)
       .set("Authorization", auth.token)
@@ -65,7 +65,7 @@ describe("routes/users", () => {
     expect(req.statusCode).to.eql(200);
     expect(expectVal).to.eql({
       ...data,
-      id: data.id.valueOf(),
+      id: data.id!.valueOf(),
     });
   });
 
@@ -90,13 +90,13 @@ describe("routes/users", () => {
 
   it(`PATCH ${API_URL}/:id`, async () => {
     const list = await usersDA.findAll();
-    const data = Object(list.data[0]);
+    const data = list.data[0];
     const dataToUpdate = {
       firstName: "agung2-edit",
       lastName: "saputra2-edit",
     };
     const req = await request(app)
-      .patch(`${API_URL}/${data.id}`)
+      .patch(`${API_URL}/${data.id!}`)
       .set("Authorization", auth.token)
       .send(dataToUpdate);
     const result = req.body.data;
@@ -107,9 +107,9 @@ describe("routes/users", () => {
 
   it(`DELETE ${API_URL}/:id`, async () => {
     const list = await usersDA.findAll();
-    const data = Object(list.data[0]);
+    const data = list.data[0];
     const req = await request(app)
-      .delete(`${API_URL}/${data.id}`)
+      .delete(`${API_URL}/${data.id!}`)
       .set("Authorization", auth.token)
       .send();
     const updatedList = await usersDA.findAll();

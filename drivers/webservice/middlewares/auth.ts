@@ -33,6 +33,10 @@ async function auth(req: any, res: any, next: any) {
     const user = await usersDA.findUserCredential({ _id: decodedToken.id });
 
     if (user) {
+      if (user.secretUuid === undefined) {
+        unAuthRes(res);
+        return;
+      }
       return verifyJwt(splitted[1], user.secretUuid, (a, error) => {
         if (error) {
           unAuthRes(res);
