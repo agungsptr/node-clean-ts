@@ -103,4 +103,13 @@ describe("routes/auth", () => {
       .send();
     expect(req.statusCode).to.eql(401);
   });
+
+  it("LOGOUT with wrong token format", async () => {
+    await usersDA.removeAll();
+    const req = await request(app)
+      .post(`${API_URL}/logout`)
+      .set("Authorization", `new token ${auth.token}`)
+      .send();
+    expect(req.statusCode).to.eql(401);
+  });
 });
