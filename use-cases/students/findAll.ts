@@ -2,7 +2,7 @@ import studentsDA from "../../data-access/students";
 import { paginationBuilder } from "../../commons/utils";
 
 async function findAll(
-  queries?: Record<string, any>,
+  queries?: Record<string, string | number | boolean | Date>,
   limit: number = 10,
   page: number = 1
 ) {

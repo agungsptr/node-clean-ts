@@ -7,7 +7,7 @@ import { Request, Response, NextFunction } from "express";
 async function findAll(req: Request, res: Response, next: NextFunction) {
   try {
     const { limit, page, ...q } = req.query;
-    const result = await usersUC.findAll(q, Number(limit), Number(page));
+    const result = await usersUC.findAll(Object(q), Number(limit), Number(page));
     res.status(StatusCode.OK).send(
       responseBuilder({
         statusCode: StatusCode.OK,

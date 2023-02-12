@@ -7,16 +7,16 @@ import {
 import { paginationBuilder } from "../../commons/utils";
 
 async function findAll(
-  queries?: Record<string, any>,
+  queries?: Record<string, string | number | boolean | Date>,
   limit: number = 10,
   page: number = 1
 ) {
   const loader = async (skip: number) => {
     if (queries !== undefined) {
       const { id, username, ...q } = queries;
-      const eq: Record<string, any> = {};
+      const eq: Record<string, string | number | boolean | Date> = {};
       if ("id" in queries) {
-        ifFalseThrowError(isValidObjectId(id), "id is not valid");
+        ifFalseThrowError(isValidObjectId(String(id)), "id is not valid");
         eq.id = id;
       }
       if (!isEmpty(username)) {

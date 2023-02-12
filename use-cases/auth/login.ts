@@ -1,6 +1,7 @@
 import Joi from "joi";
 import moment from "moment";
 import CustomError from "../../commons/customError";
+import { Payload } from "../../commons/type";
 import {
   comparePassword,
   getExpiredToken,
@@ -9,7 +10,7 @@ import {
 } from "../../commons/utils";
 import usersDA from "../../data-access/users";
 
-async function login(payload: any) {
+async function login(payload: Payload) {
   const { username, password } = payload;
 
   const schema = Joi.object({
@@ -19,9 +20,9 @@ async function login(payload: any) {
   const { error } = validatorSchema(schema)(payload);
   if (error.length > 0) throw new CustomError(error);
 
-  const user = await usersDA.findUserCredential({ username });
+  const user = await usersDA.findUserCredential({ username: String(username) });
   if (user) {
-    if (await comparePassword(password, user.password!)) {
+    if (await comparePassword(String(password), user.password!)) {
       const token = issueJwt(
         { id: user.id, username: user.password },
         user.secretUuid

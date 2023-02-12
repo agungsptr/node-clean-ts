@@ -2,6 +2,7 @@ import CustomError from "../../commons/customError";
 import UserSchema from "./user.schema";
 import { Types } from "mongoose";
 import { validatorSchema } from "../../commons/utils";
+import { Payload } from "../../commons/type";
 
 type User = {
   id?: Types.ObjectId;
@@ -14,7 +15,7 @@ type User = {
   updatedAt?: Date;
 };
 
-function builder(payload: any) {
+function builder(payload: Payload) {
   const { error, value } = validatorSchema<User>(UserSchema)({
     firstName: payload.firstName,
     lastName: payload.lastName,

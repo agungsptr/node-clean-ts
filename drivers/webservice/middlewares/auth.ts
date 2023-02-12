@@ -11,7 +11,7 @@ import { responseWithError } from "../../../commons/errors";
 import { Request, Response, NextFunction } from "express";
 import CustomError from "../../../commons/customError";
 
-function unAuthRes(res: any) {
+function unAuthRes(res: Response) {
   res.status(StatusCode.Unauthorized).send(
     responseBuilder({
       statusCode: StatusCode.Unauthorized,
@@ -33,7 +33,11 @@ async function auth(req: Request, res: Response, next: NextFunction) {
       return;
     }
 
-    const decodedToken: any = jwt.decode(splitted[1]);
+    const decodedToken = jwt.decode(splitted[1]);
+    if (typeof decodedToken === "string" || decodedToken === null) {
+      unAuthRes(res);
+      return;
+    }
     const user = await usersDA.findUserCredential({ _id: decodedToken.id });
 
     if (user) {
