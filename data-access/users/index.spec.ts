@@ -1,11 +1,11 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { Data } from "../../commons/type";
+import { User } from "../../models/user";
 import usersDA from "./index";
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
-let user: Data;
+let user: User;
 
 describe("data-access/users", () => {
   beforeEach(async () => {

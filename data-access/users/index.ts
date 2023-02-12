@@ -1,25 +1,26 @@
-import { DataAccess } from "../dataAccess";
-import UsersModel from "../../db/models/users.model";
-import { builder } from "../../models/user";
+import Joi from "joi";
+import mongoose from "mongoose";
 import serializer from "./serializer";
-import { Data, Model, ModelBuilder, Serializer } from "../../commons/type";
-import { ifFalseThrowError, isValidObjectId } from "../../commons/checks";
-import { hashPassword, queriesBuilder } from "../../commons/utils";
-import { QueryOP } from "../../commons/constants";
+import UsersModel from "../../db/models/users.model";
 import CustomError from "../../commons/customError";
+import { DataAccess } from "../dataAccess";
+import { QueryOP } from "../../commons/constants";
+import { builder, User } from "../../models/user";
 import { repackageError } from "../../commons/errors";
+import { hashPassword, queriesBuilder } from "../../commons/utils";
+import { ifFalseThrowError, isValidObjectId } from "../../commons/checks";
 
-class UsersDA extends DataAccess {
+class UsersDA extends DataAccess<User> {
   constructor(
-    model: Model,
+    model: mongoose.Model<any>,
     modelName: string,
-    builder: ModelBuilder,
-    serializer: Serializer
+    builder: (payload: any) => Joi.AnySchema<any> | undefined,
+    serializer: (payload: any) => User
   ) {
     super(model, modelName, builder, serializer);
   }
 
-  async update(id: string, payload: any): Promise<Data> {
+  async update(id: string, payload: any): Promise<User> {
     try {
       ifFalseThrowError(isValidObjectId(id), "id is not valid");
       const data = await this.model.findById(id);
@@ -43,7 +44,9 @@ class UsersDA extends DataAccess {
     }
   }
 
-  async findUserCredential(queries: Record<string, any>): Promise<{
+  async findUserCredential(
+    queries: Record<string, string | number | boolean>
+  ): Promise<{
     id: string;
     username: string;
     password: string;
@@ -51,7 +54,10 @@ class UsersDA extends DataAccess {
   }> {
     try {
       if ("_id" in queries) {
-        ifFalseThrowError(isValidObjectId(queries._id), "id is not valid");
+        ifFalseThrowError(
+          isValidObjectId(String(queries._id)),
+          "id is not valid"
+        );
       }
       return this.model
         .findOne(queriesBuilder(QueryOP.EQ, queries))

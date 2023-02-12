@@ -1,7 +1,7 @@
-import { serializer } from "../../commons/utils";
+import { User } from "../../models/user";
 
-function serializeSingle(data?: Record<string, any>) {
-  return {
+function serializeSingle(data?: Record<string, any>): User {
+  const result = {
     id: data?._id,
     firstName: data?.firstName,
     lastName: data?.lastName,
@@ -9,6 +9,7 @@ function serializeSingle(data?: Record<string, any>) {
     createdAt: data?.createdAt,
     updatedAt: data?.updatedAt,
   };
+  return result;
 }
 
-export default serializer(serializeSingle);
+export default serializeSingle;

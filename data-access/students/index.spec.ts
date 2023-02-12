@@ -1,14 +1,14 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { after } from "mocha";
-import { Data } from "../../commons/type";
 import usersDA from "../users";
 import studentsDA from "./index";
+import { Student } from "../../models/student";
+import { User } from "../../models/user";
 chai.use(chaiAsPromised);
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
-let user: Data, student: Data;
+let user: User, student: Student;
 
 describe("data-access/students", () => {
   beforeEach(async () => {

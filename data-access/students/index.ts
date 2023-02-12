@@ -1,15 +1,16 @@
-import { DataAccess } from "../dataAccess";
-import StudentsModel from "../../db/models/students.model";
-import { builder } from "../../models/student";
+import Joi from "joi";
+import mongoose from "mongoose";
 import serializer from "./serializer";
-import { Model, ModelBuilder, Serializer } from "../../commons/type";
+import StudentsModel from "../../db/models/students.model";
+import { DataAccess } from "../dataAccess";
+import { builder, Student } from "../../models/student";
 
-class StudentsDA extends DataAccess {
+class StudentsDA extends DataAccess<Student> {
   constructor(
-    model: Model,
+    model: mongoose.Model<any>,
     modelName: string,
-    builder: ModelBuilder,
-    serializer: Serializer
+    builder: (payload: any) => Joi.AnySchema<any> | undefined,
+    serializer: (payload: any) => Student
   ) {
     super(model, modelName, builder, serializer);
   }

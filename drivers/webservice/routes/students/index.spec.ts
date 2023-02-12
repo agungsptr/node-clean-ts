@@ -6,12 +6,12 @@ import usersDA from "../../../../data-access/users";
 import studentsDA from "../../../../data-access/students";
 import * as studentsUC from "../../../../use-cases/students";
 import * as setup from "../../../../test/setup";
-import { Data } from "../../../../commons/type";
+import { User } from "../../../../models/user";
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-let app: Express, user: Data, auth: any;
+let app: Express, user: User, auth: any;
 const API_URL = "/api/student";
 
 describe("routes/students", () => {

@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "../config";
 import { QueryOP, Status, StatusCode } from "./constants";
-import { Data, Page, Response } from "./type";
+import { Page, Response } from "./type";
 import Joi from "joi";
 import moment from "moment";
 
@@ -22,8 +22,8 @@ function responseBuilder({
     statusCode,
     status,
     message,
-    data,
   };
+  if (data) result.data = data;
   if (page) result.page = page;
   return result;
 }
@@ -39,15 +39,6 @@ function queriesBuilder(eqlType: QueryOP, queries?: Object): Object {
     }
   }
   return obj;
-}
-
-function serializer(single: (data: Record<string, any>) => Object) {
-  return (data: any) => {
-    if (Array.isArray(data)) {
-      return data.map(single);
-    }
-    return single(data);
-  };
 }
 
 function hashPassword(password: string): string {
@@ -131,7 +122,7 @@ function validatorSchema(schema: Joi.Schema) {
 }
 
 async function paginationBuilder(
-  loader: (skip: number) => Promise<{ data: Data[]; total: number }>,
+  loader: (skip: number) => Promise<{ data: Array<Object>; total: number }>,
   limit: number = 10,
   page: number = 1
 ) {
@@ -180,7 +171,6 @@ function getExpiredToken(token: string) {
 export {
   responseBuilder,
   queriesBuilder,
-  serializer,
   hashPassword,
   comparePassword,
   issueJwt,

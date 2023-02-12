@@ -1,4 +1,5 @@
-import { SortOrder } from "mongoose";
+import Joi from "joi";
+import mongoose, { SortOrder } from "mongoose";
 import {
   ifEmptyThrowError,
   ifFalseThrowError,
@@ -6,16 +7,15 @@ import {
 } from "../commons/checks";
 import { QueryOP } from "../commons/constants";
 import { repackageError } from "../commons/errors";
-import { Data, Model, ModelBuilder, Serializer } from "../commons/type";
 import { queriesBuilder } from "../commons/utils";
 
-interface DataAccessInterface {
-  create(payload: any): Promise<Data>;
-  findOne(id: string): Promise<Data>;
+interface DataAccessInterface<T> {
+  create(payload: any): Promise<T>;
+  findOne(id: string): Promise<T>;
   findOneBy(
     queries: { eq?: Object; like?: Object },
     options: { orderBy?: { [key: string]: SortOrder } }
-  ): Promise<Data>;
+  ): Promise<T>;
   findAll(
     queries: { eq?: Object; like?: Object },
     options: {
@@ -23,23 +23,23 @@ interface DataAccessInterface {
       limit: number;
       skip: number;
     }
-  ): Promise<{ data: Data; total: number }>;
-  update(id: string, payload: any): Promise<Data>;
+  ): Promise<{ data: Array<T>; total: number }>;
+  update(id: string, payload: any): Promise<T>;
   remove(id: string): Promise<void>;
   removeAll(): Promise<void>;
 }
 
-class DataAccess implements DataAccessInterface {
-  protected model: Model;
+class DataAccess<T> implements DataAccessInterface<T> {
+  protected model: mongoose.Model<any>;
   protected modelName: string;
-  protected builder: ModelBuilder;
-  protected serializer: Serializer;
+  protected builder: (payload: any) => Joi.AnySchema<any> | undefined;
+  protected serializer: (payload: any) => T;
 
   constructor(
-    model: Model,
+    model: mongoose.Model<any>,
     modelName: string,
-    builder: ModelBuilder,
-    serializer: Serializer
+    builder: (payload: any) => Joi.AnySchema<any> | undefined,
+    serializer: (payload: any) => T
   ) {
     this.model = model;
     this.modelName = modelName;
@@ -47,7 +47,7 @@ class DataAccess implements DataAccessInterface {
     this.serializer = serializer;
   }
 
-  async create(payload: any): Promise<Data> {
+  async create(payload: any): Promise<T> {
     try {
       const data = this.builder(payload);
       return this.model.create(data).then(this.serializer);
@@ -56,7 +56,7 @@ class DataAccess implements DataAccessInterface {
     }
   }
 
-  async findOne(id: string): Promise<Data> {
+  async findOne(id: string): Promise<T> {
     try {
       ifFalseThrowError(isValidObjectId(id), "id is not valid");
       return this.model.findById(id).then(this.serializer);
@@ -70,7 +70,7 @@ class DataAccess implements DataAccessInterface {
     options: { orderBy?: { [key: string]: SortOrder } } = {
       orderBy: { createdAt: 1 },
     }
-  ): Promise<Data> {
+  ): Promise<T> {
     try {
       return this.model
         .findOne(queriesBuilder(QueryOP.EQ, queries.eq))
@@ -89,7 +89,7 @@ class DataAccess implements DataAccessInterface {
       limit: number;
       skip: number;
     } = { orderBy: { createdAt: 1 }, limit: 10, skip: 0 }
-  ): Promise<{ data: Data[]; total: number }> {
+  ): Promise<{ data: Array<T>; total: number }> {
     try {
       const data = await this.model
         .find(queriesBuilder(QueryOP.EQ, queries.eq))
@@ -107,13 +107,13 @@ class DataAccess implements DataAccessInterface {
     }
   }
 
-  async update(id: string, payload: any): Promise<Data> {
+  async update(id: string, payload: any): Promise<T> {
     try {
       ifFalseThrowError(isValidObjectId(id), "id is not valid");
       const data = await this.model.findById(id).then(this.serializer);
       ifEmptyThrowError(
         data,
-        `Data with id: ${id} in ${this.modelName} is not found`
+        ` with id: ${id} in ${this.modelName} is not found`
       );
       const dataToUpdate = this.builder({ ...data, ...payload });
       await this.model.findByIdAndUpdate(id, dataToUpdate);
@@ -129,7 +129,7 @@ class DataAccess implements DataAccessInterface {
       const data = await this.model.findById(id).then(this.serializer);
       ifEmptyThrowError(
         data,
-        `Data with id: ${id} in ${this.modelName} is not found`
+        ` with id: ${id} in ${this.modelName} is not found`
       );
       await this.model.findByIdAndDelete(id);
     } catch (e) {

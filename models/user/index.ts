@@ -8,8 +8,8 @@ type User = {
   firstName: string;
   lastName: string;
   username: string;
-  password: string;
-  secretUuid: string;
+  password?: string;
+  secretUuid?: string;
   createdAt: Date;
   updatedAt: Date;
 };

@@ -1,6 +1,6 @@
-import { serializer } from "../../commons/utils";
+import { Student } from "../../models/student";
 
-function serializeSingle(data?: Record<string, any>) {
+function serializeSingle(data?: Record<string, any>): Student {
   return {
     id: data?._id,
     grade: data?.grade,
@@ -13,4 +13,4 @@ function serializeSingle(data?: Record<string, any>) {
   };
 }
 
-export default serializer(serializeSingle);
+export default serializeSingle;

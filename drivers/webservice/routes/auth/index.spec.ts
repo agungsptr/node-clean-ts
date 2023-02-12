@@ -5,12 +5,12 @@ import { Express } from "express";
 import * as usersUC from "../../../../use-cases/users";
 import usersDA from "../../../../data-access/users";
 import * as setup from "../../../../test/setup";
-import { Data } from "../../../../commons/type";
+import { User } from "../../../../models/user";
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-let app: Express, user: Data, auth: any;
+let app: Express, user: User, auth: any;
 const API_URL = "/api/auth";
 
 describe("routes/auth", () => {
