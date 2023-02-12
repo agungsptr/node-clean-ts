@@ -1,4 +1,3 @@
-import { ifEmptyThrowError } from "../../../commons/checks";
 import { ResponseMessage, StatusCode } from "../../../commons/constants";
 import {
   responseBuilder,

@@ -1,4 +1,3 @@
-import Joi from "joi";
 import mongoose, { SortOrder } from "mongoose";
 import {
   ifEmptyThrowError,
