@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "../config";
 import { QueryOP, Status, StatusCode } from "./constants";
-import { Page, Response } from "./type";
+import { Page, Payload, Response } from "./type";
 import Joi from "joi";
 import moment from "moment";
 
@@ -29,7 +29,7 @@ function responseBuilder({
 }
 
 function queriesBuilder(eqlType: QueryOP, queries?: Object): Object {
-  const obj: Record<string, any> = {};
+  const obj: Record<string, string | number | boolean | Date | Object> = {};
   if (queries === undefined) return obj;
   for (const [key, val] of Object.entries(queries)) {
     if (eqlType === "EQ") {
@@ -94,7 +94,7 @@ function verifyJwt(
   );
 }
 
-function sanitizerPayload(payload: Record<string, any>) {
+function sanitizerPayload(payload: Payload) {
   delete payload.createdBy;
   delete payload.createdAt;
   delete payload.updatedAt;
@@ -105,7 +105,7 @@ function sanitizerPayload(payload: Record<string, any>) {
 
 function validatorSchema<T>(schema: Joi.Schema) {
   return (
-    payload: any
+    payload: Payload
   ): {
     error: Array<string>;
     value: T | undefined;
@@ -165,8 +165,10 @@ function objBuilder(data: Object | null): Object {
 }
 
 function getExpiredToken(token: string) {
-  const decoded: any = jwt.decode(token);
-  return moment.unix(decoded.exp);
+  const decoded = jwt.decode(token);
+  if (typeof decoded !== "string" && decoded !== null) {
+    return moment.unix(Object(decoded).exp);
+  }
 }
 
 export {

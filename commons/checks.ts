@@ -36,15 +36,6 @@ function ifTrueThrowError(flag: boolean, errorMsg: string) {
   }
 }
 
-function imageFileTypeIsValid(file: any) {
-  return (
-    file &&
-    file.mimetype !== "image/png" &&
-    file.mimetype !== "image/jpg" &&
-    file.mimetype !== "image/jpeg"
-  );
-}
-
 function isValidObjectId(id: string) {
   return mongoose.isValidObjectId(id);
 }
@@ -52,7 +43,6 @@ function isValidObjectId(id: string) {
 export {
   ifTrueThrowError,
   ifFalseThrowError,
-  imageFileTypeIsValid,
   isEmpty,
   ifEmptyThrowError,
   isValidObjectId,

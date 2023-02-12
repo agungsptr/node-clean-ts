@@ -29,7 +29,7 @@ function repackageError(err: any) {
 
 function responseWithError(
   res: Response,
-  err: CustomError | Error | undefined | any,
+  err: any,
   customErrorCode: StatusCode = StatusCode.BadRequest
 ) {
   if (err instanceof CustomError) {
