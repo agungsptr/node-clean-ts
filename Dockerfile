@@ -19,6 +19,7 @@ ENV GRPC_PORT=$GRPC_PORT
 
 COPY dist /app
 COPY package.json /app
+COPY config/ecosystem.config.json /app/config
 COPY scripts/start.sh /app
 COPY scripts/start.dev.sh /app
 COPY scripts/wait-for-it.sh /app
