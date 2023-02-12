@@ -85,6 +85,7 @@ test:
 	@yarn test
 
 coverage_test:
+	@make -s wait-db
 	@echo "Starting coverage test..."
 	@yarn coverage_test
 
