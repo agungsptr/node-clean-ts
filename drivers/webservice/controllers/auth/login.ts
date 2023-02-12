@@ -2,8 +2,9 @@ import * as authUC from "../../../../use-cases/auth";
 import { ResponseMessage, StatusCode } from "../../../../commons/constants";
 import { responseWithError } from "../../../../commons/errors";
 import { responseBuilder } from "../../../../commons/utils";
+import { Request, Response, NextFunction } from "express";
 
-async function login(req: any, res: any, next: any) {
+async function login(req: Request, res: Response, next: NextFunction) {
   try {
     const login = await authUC.login(req.body);
     if (login) {

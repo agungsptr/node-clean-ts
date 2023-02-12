@@ -8,6 +8,8 @@ import {
 import jwt from "jsonwebtoken";
 import usersDA from "../../../data-access/users";
 import { responseWithError } from "../../../commons/errors";
+import { Request, Response, NextFunction } from "express";
+import CustomError from "../../../commons/customError";
 
 function unAuthRes(res: any) {
   res.status(StatusCode.Unauthorized).send(
@@ -18,10 +20,12 @@ function unAuthRes(res: any) {
   );
 }
 
-async function auth(req: any, res: any, next: any) {
+async function auth(req: Request, res: Response, next: NextFunction) {
   try {
     const token = req.headers.authorization;
-    ifEmptyThrowError(token, "Authorization token is required");
+    if (token === undefined) {
+      throw new CustomError("Authorization token is required");
+    }
 
     const splitted = tokenSplitter(token);
     if (splitted === undefined) {
@@ -42,7 +46,7 @@ async function auth(req: any, res: any, next: any) {
           unAuthRes(res);
           return;
         }
-        req.user = {
+        req.body.user = {
           userId: `${user.id}`,
           username: user.username,
         };

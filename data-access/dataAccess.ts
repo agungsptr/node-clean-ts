@@ -7,10 +7,11 @@ import {
 } from "../commons/checks";
 import { QueryOP } from "../commons/constants";
 import { repackageError } from "../commons/errors";
+import { Payload } from "../commons/type";
 import { queriesBuilder } from "../commons/utils";
 
 interface DataAccessInterface<T> {
-  create(payload: any): Promise<T>;
+  create(payload: Payload): Promise<T>;
   findOne(id: string): Promise<T>;
   findOneBy(
     queries: { eq?: Object; like?: Object },
@@ -24,7 +25,7 @@ interface DataAccessInterface<T> {
       skip: number;
     }
   ): Promise<{ data: Array<T>; total: number }>;
-  update(id: string, payload: any): Promise<T>;
+  update(id: string, payload: Payload): Promise<T>;
   remove(id: string): Promise<void>;
   removeAll(): Promise<void>;
 }
@@ -32,14 +33,14 @@ interface DataAccessInterface<T> {
 class DataAccess<T> implements DataAccessInterface<T> {
   protected model: mongoose.Model<any>;
   protected modelName: string;
-  protected builder: (payload: any) => Joi.AnySchema<any> | undefined;
-  protected serializer: (payload: any) => T;
+  protected builder: (payload: Payload) => T | undefined;
+  protected serializer: (payload: Payload) => T;
 
   constructor(
     model: mongoose.Model<any>,
     modelName: string,
-    builder: (payload: any) => Joi.AnySchema<any> | undefined,
-    serializer: (payload: any) => T
+    builder: (payload: Payload) => T | undefined,
+    serializer: (payload: Payload) => T
   ) {
     this.model = model;
     this.modelName = modelName;
@@ -47,7 +48,7 @@ class DataAccess<T> implements DataAccessInterface<T> {
     this.serializer = serializer;
   }
 
-  async create(payload: any): Promise<T> {
+  async create(payload: Payload): Promise<T> {
     try {
       const data = this.builder(payload);
       return this.model.create(data).then(this.serializer);
@@ -107,7 +108,7 @@ class DataAccess<T> implements DataAccessInterface<T> {
     }
   }
 
-  async update(id: string, payload: any): Promise<T> {
+  async update(id: string, payload: Payload): Promise<T> {
     try {
       ifFalseThrowError(isValidObjectId(id), "id is not valid");
       const data = await this.model.findById(id).then(this.serializer);
@@ -116,7 +117,7 @@ class DataAccess<T> implements DataAccessInterface<T> {
         ` with id: ${id} in ${this.modelName} is not found`
       );
       const dataToUpdate = this.builder({ ...data, ...payload });
-      await this.model.findByIdAndUpdate(id, dataToUpdate);
+      await this.model.findByIdAndUpdate(id, Object(dataToUpdate));
       return this.serializer({ id, ...dataToUpdate });
     } catch (e) {
       throw repackageError(e);

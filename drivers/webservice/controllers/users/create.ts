@@ -2,8 +2,9 @@ import * as usersUC from "../../../../use-cases/users";
 import { responseWithError } from "../../../../commons/errors";
 import { responseBuilder, sanitizerPayload } from "../../../../commons/utils";
 import { StatusCode, ResponseMessage } from "../../../../commons/constants";
+import { Request, Response, NextFunction } from "express";
 
-async function create(req: any, res: any, next: any) {
+async function create(req: Request, res: Response, next: NextFunction) {
   try {
     const payload = sanitizerPayload(req.body);
     const data = await usersUC.create(payload);

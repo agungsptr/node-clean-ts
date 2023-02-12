@@ -103,12 +103,13 @@ function sanitizerPayload(payload: Record<string, any>) {
   return payload;
 }
 
-function validatorSchema(schema: Joi.Schema) {
-  type ValidationResult = {
+function validatorSchema<T>(schema: Joi.Schema) {
+  return (
+    payload: any
+  ): {
     error: Array<string>;
-    value: Joi.AnySchema<any> | undefined;
-  };
-  return (payload: any): ValidationResult => {
+    value: T | undefined;
+  } => {
     const { error, value } = schema.validate(payload, { abortEarly: false });
     let messages: Array<string> = [];
     if (error !== undefined) {

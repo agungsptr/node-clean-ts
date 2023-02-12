@@ -15,7 +15,7 @@ type User = {
 };
 
 function builder(payload: any) {
-  const { error, value } = validatorSchema(UserSchema)({
+  const { error, value } = validatorSchema<User>(UserSchema)({
     firstName: payload.firstName,
     lastName: payload.lastName,
     username: payload.username,

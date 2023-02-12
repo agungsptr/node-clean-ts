@@ -18,7 +18,7 @@ type Student = {
 };
 
 function builder(payload: any) {
-  const { error, value } = validatorSchema(StudentSchema)({
+  const { error, value } = validatorSchema<Student>(StudentSchema)({
     name: payload.name,
     age: payload.age,
     grade: payload.grade,

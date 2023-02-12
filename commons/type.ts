@@ -23,4 +23,6 @@ type GrpcQuery = {
   boolValue?: boolean;
 };
 
-export { Page, Response, GrpcQuery };
+type Payload = Record<string, string | number | boolean | Date | Object>;
+
+export { Page, Response, GrpcQuery, Payload };

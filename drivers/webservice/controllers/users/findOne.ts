@@ -2,8 +2,9 @@ import * as usersUC from "../../../../use-cases/users";
 import { responseWithError } from "../../../../commons/errors";
 import { responseBuilder } from "../../../../commons/utils";
 import { StatusCode, ResponseMessage } from "../../../../commons/constants";
+import { Request, Response, NextFunction } from "express";
 
-async function findOne(req: any, res: any, next: any) {
+async function findOne(req: Request, res: Response, next: NextFunction) {
   try {
     const { id } = req.params;
     const data = await usersUC.findOne(id);

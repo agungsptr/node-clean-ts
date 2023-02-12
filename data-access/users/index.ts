@@ -1,4 +1,3 @@
-import Joi from "joi";
 import mongoose from "mongoose";
 import serializer from "./serializer";
 import UsersModel from "../../db/models/users.model";
@@ -9,34 +8,36 @@ import { builder, User } from "../../models/user";
 import { repackageError } from "../../commons/errors";
 import { hashPassword, queriesBuilder } from "../../commons/utils";
 import { ifFalseThrowError, isValidObjectId } from "../../commons/checks";
+import { Payload } from "../../commons/type";
 
 class UsersDA extends DataAccess<User> {
   constructor(
     model: mongoose.Model<any>,
     modelName: string,
-    builder: (payload: any) => Joi.AnySchema<any> | undefined,
-    serializer: (payload: any) => User
+    builder: (payload: Payload) => User | undefined,
+    serializer: (payload: Payload) => User
   ) {
     super(model, modelName, builder, serializer);
   }
 
-  async update(id: string, payload: any): Promise<User> {
+  async update(id: string, payload: Payload): Promise<User> {
     try {
       ifFalseThrowError(isValidObjectId(id), "id is not valid");
       const data = await this.model.findById(id);
       if (data) {
         const serializedData = this.serializer(data);
         if (payload.password) {
-          data.password = hashPassword(payload.password);
+          data.password = hashPassword(String(payload.password));
           delete payload.password;
         }
         const dataToUpdate = this.builder({
           password: data.password,
           ...serializedData,
           ...payload,
+          id,
         });
         await this.model.findByIdAndUpdate(id, dataToUpdate);
-        return this.serializer({ _id: id, ...dataToUpdate });
+        return this.serializer({ ...dataToUpdate, id });
       }
       throw new CustomError(`Data with id: ${id} in Users is not found`);
     } catch (e) {

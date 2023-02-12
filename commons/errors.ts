@@ -3,6 +3,7 @@ import { StatusCode, ErrorMessage } from "./constants";
 import CustomError from "./customError";
 import { responseBuilder } from "./utils";
 import * as logger from "./logger";
+import { Response } from "express";
 
 const appName = `${config.NODE_ENV}`.toLowerCase();
 
@@ -27,7 +28,7 @@ function repackageError(err: any) {
 }
 
 function responseWithError(
-  res: any,
+  res: Response,
   err: CustomError | Error | undefined | any,
   customErrorCode: StatusCode = StatusCode.BadRequest
 ) {
