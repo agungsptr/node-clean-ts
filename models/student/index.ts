@@ -13,8 +13,8 @@ type Student = {
     userId: string;
     username: string;
   };
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 function builder(payload: any) {

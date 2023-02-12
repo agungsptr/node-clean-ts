@@ -10,8 +10,8 @@ type User = {
   username: string;
   password?: string;
   secretUuid?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 function builder(payload: any) {
