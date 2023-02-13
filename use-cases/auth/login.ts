@@ -1,5 +1,6 @@
 import Joi from "joi";
 import moment from "moment";
+import { ErrorName } from "../../commons/constants";
 import CustomError from "../../commons/customError";
 import { Payload } from "../../commons/type";
 import {
@@ -18,7 +19,7 @@ async function login(payload: Payload) {
     password: Joi.string().required(),
   });
   const { error } = validatorSchema(schema)(payload);
-  if (error.length > 0) throw new CustomError(error);
+  if (error.length > 0) throw new CustomError(ErrorName.Invalid, error);
 
   const user = await usersDA.findUserCredential({ username: String(username) });
   if (user) {

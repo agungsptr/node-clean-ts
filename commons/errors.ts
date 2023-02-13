@@ -36,7 +36,7 @@ function responseWithError(
     return res.status(customErrorCode).send(
       responseBuilder({
         statusCode: customErrorCode,
-        message: err.list,
+        message: err.listMessage ?? err.message,
       })
     );
   } else {

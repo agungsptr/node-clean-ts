@@ -25,7 +25,7 @@ async function login(req: Request, res: Response, next: NextFunction) {
       })
     );
   } catch (e) {
-    responseWithError(res, e, StatusCode.BadRequest);
+    responseWithError(res, e, StatusCode.Unauthorized);
   }
 }
 

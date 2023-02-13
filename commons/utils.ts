@@ -73,23 +73,22 @@ function verifyJwt(
   token: string,
   userSecretUuid: string,
   cb: (
-    decoded: jwt.JwtPayload | jwt.Jwt | undefined | string,
-    errorMessage: string | undefined
+    decoded?: jwt.JwtPayload | jwt.Jwt | string,
+    errorMessage?: string
   ) => void
 ): void {
   const secretKey = `${config.jwt.secretKey}${userSecretUuid}`;
   return jwt.verify(
     token,
     secretKey,
-    {},
-    (err: any, decoded: jwt.JwtPayload | jwt.Jwt | undefined | string) => {
+    (err: any, decoded?: jwt.JwtPayload | jwt.Jwt | string) => {
       if (err) {
         if (err.message.includes("invalid signature")) {
           return cb(undefined, err.message.replace(" ", "-"));
         }
         return cb(undefined, "invalid-token");
       }
-      return cb(decoded, undefined);
+      return cb(decoded);
     }
   );
 }

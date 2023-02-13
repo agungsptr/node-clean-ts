@@ -1,4 +1,8 @@
-import { ResponseMessage, StatusCode } from "../../../commons/constants";
+import {
+  ErrorName,
+  ResponseMessage,
+  StatusCode,
+} from "../../../commons/constants";
 import {
   responseBuilder,
   tokenSplitter,
@@ -23,7 +27,10 @@ async function auth(req: Request, res: Response, next: NextFunction) {
   try {
     const token = req.headers.authorization;
     if (token === undefined) {
-      throw new CustomError("Authorization token is required");
+      throw new CustomError(
+        ErrorName.Invalid,
+        "Authorization token is required"
+      );
     }
 
     const splitted = tokenSplitter(token);

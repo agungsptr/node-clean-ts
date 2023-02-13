@@ -61,7 +61,7 @@ describe("routes/auth", () => {
       .post(`${API_URL}/login`)
       .send({ username: Object(user).username });
 
-    expect(req.statusCode).to.eql(400);
+    expect(req.statusCode).to.eql(401);
   });
 
   it(`LOGOUT ${API_URL}/logout`, async () => {

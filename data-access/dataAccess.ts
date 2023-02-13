@@ -1,10 +1,7 @@
 import mongoose, { SortOrder } from "mongoose";
-import {
-  ifEmptyThrowError,
-  ifFalseThrowError,
-  isValidObjectId,
-} from "../commons/checks";
-import { QueryOP } from "../commons/constants";
+import { isEmpty, isValidObjectId } from "../commons/checks";
+import { ErrorName, QueryOP } from "../commons/constants";
+import CustomError from "../commons/customError";
 import { repackageError } from "../commons/errors";
 import { Payload } from "../commons/type";
 import { queriesBuilder } from "../commons/utils";
@@ -34,6 +31,8 @@ class DataAccess<T> implements DataAccessInterface<T> {
   protected modelName: string;
   protected builder: (payload: Payload) => T | undefined;
   protected serializer: (payload: Payload) => T;
+  private errorMessage = (id: string) =>
+    `With id: ${id} in ${this.modelName} is not found`;
 
   constructor(
     model: mongoose.Model<any>,
@@ -50,7 +49,10 @@ class DataAccess<T> implements DataAccessInterface<T> {
   async create(payload: Payload): Promise<T> {
     try {
       const data = this.builder(payload);
-      return this.model.create(data).then(this.serializer);
+      return this.model.create(data).then((data: Payload) => {
+        if (!isEmpty(data)) return this.serializer(data);
+        throw new CustomError(ErrorName.Null, "Empty data");
+      });
     } catch (e) {
       throw repackageError(e);
     }
@@ -58,8 +60,13 @@ class DataAccess<T> implements DataAccessInterface<T> {
 
   async findOne(id: string): Promise<T> {
     try {
-      ifFalseThrowError(isValidObjectId(id), "id is not valid");
-      return this.model.findById(id).then(this.serializer);
+      if (!isValidObjectId(id)) {
+        throw new CustomError(ErrorName.Invalid, "id is not valid");
+      }
+      return this.model.findById(id).then((data: Payload) => {
+        if (!isEmpty(data)) return this.serializer(data);
+        throw new CustomError(ErrorName.NotFound, this.errorMessage(id));
+      });
     } catch (e) {
       throw repackageError(e);
     }
@@ -76,7 +83,10 @@ class DataAccess<T> implements DataAccessInterface<T> {
         .findOne(queriesBuilder(QueryOP.EQ, queries.eq))
         .findOne(queriesBuilder(QueryOP.LIKE, queries.like))
         .sort(options.orderBy)
-        .then(this.serializer);
+        .then((data: Payload) => {
+          if (!isEmpty(data)) return this.serializer(data);
+          throw new CustomError(ErrorName.NotFound, "Data not found");
+        });
     } catch (e) {
       throw repackageError(e);
     }
@@ -109,12 +119,16 @@ class DataAccess<T> implements DataAccessInterface<T> {
 
   async update(id: string, payload: Payload): Promise<T> {
     try {
-      ifFalseThrowError(isValidObjectId(id), "id is not valid");
-      const data = await this.model.findById(id).then(this.serializer);
-      ifEmptyThrowError(
-        data,
-        ` with id: ${id} in ${this.modelName} is not found`
-      );
+      if (!isValidObjectId(id)) {
+        throw new CustomError(ErrorName.Invalid, "id is not valid");
+      }
+      const data = await this.model.findById(id).then((data: Payload) => {
+        if (!isEmpty(data)) return this.serializer(data);
+        return undefined;
+      });
+      if (!data) {
+        throw new CustomError(ErrorName.NotFound, this.errorMessage(id));
+      }
       const dataToUpdate = this.builder({ ...data, ...payload });
       await this.model.findByIdAndUpdate(id, Object(dataToUpdate));
       return this.serializer({ id, ...dataToUpdate });
@@ -125,12 +139,16 @@ class DataAccess<T> implements DataAccessInterface<T> {
 
   async remove(id: string) {
     try {
-      ifFalseThrowError(isValidObjectId(id), "id is not valid");
-      const data = await this.model.findById(id).then(this.serializer);
-      ifEmptyThrowError(
-        data,
-        ` with id: ${id} in ${this.modelName} is not found`
-      );
+      if (!isValidObjectId(id)) {
+        throw new CustomError(ErrorName.Invalid, "id is not valid");
+      }
+      const data = await this.model.findById(id).then((data: Payload) => {
+        if (!isEmpty(data)) return this.serializer(data);
+        return undefined;
+      });
+      if (!data) {
+        throw new CustomError(ErrorName.NotFound, this.errorMessage(id));
+      }
       await this.model.findByIdAndDelete(id);
     } catch (e) {
       throw repackageError(e);

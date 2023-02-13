@@ -23,6 +23,12 @@ enum StatusCode {
   OK = 200,
 }
 
+enum ErrorName {
+  NotFound = "Not Found",
+  Null = "Null",
+  Invalid = "Invalid",
+}
+
 enum QueryOP {
   EQ = "EQ",
   LIKE = "LIKE",
@@ -42,4 +48,11 @@ enum ResponseMessage {
   LoggedOut = "Successfully logged out",
 }
 
-export { Status, ErrorMessage, StatusCode, ResponseMessage, QueryOP };
+export {
+  Status,
+  ErrorMessage,
+  StatusCode,
+  ResponseMessage,
+  QueryOP,
+  ErrorName,
+};

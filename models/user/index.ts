@@ -3,6 +3,7 @@ import UserSchema from "./user.schema";
 import { Types } from "mongoose";
 import { validatorSchema } from "../../commons/utils";
 import { Payload } from "../../commons/type";
+import { ErrorName } from "../../commons/constants";
 
 type User = {
   id?: Types.ObjectId;
@@ -25,7 +26,7 @@ function builder(payload: Payload) {
     createdAt: payload.createdAt,
     updatedAt: payload.updatedAt,
   });
-  if (error.length > 0) throw new CustomError(error);
+  if (error.length > 0) throw new CustomError(ErrorName.Invalid, error);
   return value;
 }
 

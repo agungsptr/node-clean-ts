@@ -1,10 +1,18 @@
-class CustomError extends Error {
-  list: Array<string>;
+class CustomError implements Error {
+  name: string;
+  message: string;
+  listMessage?: Array<string>;
+  stack?: string;
 
-  constructor(error: any) {
-    super(error);
-    this.name = this.constructor.name;
-    this.list = error;
+  constructor(name: string, message: string | Array<string>, stack?: string) {
+    this.name = name;
+    this.stack = stack;
+    if (Array.isArray(message)) {
+      this.listMessage = message;
+      this.message = message.toString();
+    } else {
+      this.message = message;
+    }
   }
 }
 
