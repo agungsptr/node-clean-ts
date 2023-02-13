@@ -1,6 +1,6 @@
 <br />
 <div align="center">
-  <h2 align="center" style="font-size:8vw;">Node Clean TypeScript</h2>
+  <h2 align="center" style="font-size:8vw;">Node Clean </br> TypeScript</h2>
 
   <p align="center">
     A Node.js project template with clean architecture implementation
