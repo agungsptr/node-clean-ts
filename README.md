@@ -256,103 +256,31 @@ Screenshots result
 
 ### Available Make Commands
 
-Infrastructure commands
+```sh
+# Infrastructure
+make infra              # Run only db container
+make build              # Build image
+make compose-up         # Run all container including db and app
+make compose-down       # Stop all containers
+make purge              # Delete all images
+make auto               # Auto command, to build image and run all containers
+make wait-db            # Check db is ready
+make wait-app           # Check app is ready
 
-* Run only db container
+# Application
+make start              # Run webservice
+make dev                # Run webservice in dev mode with watching mode
+make grpc               # Run gRPC
+make grpc_client        # Run example gRPC client
 
-  ```sh
-  make infra
-  ```
+# Database
+make seed               # Seeding database
 
-* Build image
-
-  ```sh
-  make build
-  ```
-
-* Run all container including db and app
-
-  ```sh
-  make compose-up
-  ```
-
-* Stop all containers
-
-  ```sh
-  make compose-down
-  ```
-
-* Auto command, to build image and run all containers
-
-  ```sh
-  make auto
-  ```
-
-* Check db is ready
-
-  ```sh
-  make wait-db
-  ```
-
-* Check app is ready
-
-  ```sh
-  make wait-app
-  ```
-
-Application commands
-
-* Run webservice
-
-  ```sh
-  make start
-  ```
-
-* Run webservice in dev mode, it will automatically restart app if there are ane changes.
-
-  ```sh
-  make dev
-  ```
-
-* Run gRPC
-
-  ```sh
-  make grpc
-  ```
-
-* Run example gRPC client
-
-  ```sh
-  make grpc_client
-  ```
-
-Database commands
-
-* Seeding database
-
-  ```sh
-  make seed
-  ```
-
-Testing commands
-
-* Unit testing
-
-  ```sh
-  make test
-  ```
-
-* Coverage testing
-
-  ```sh
-  make coverage_test
-  ```
-
-* Load testing, to testing the app performace
-
-  ```sh
-  make load_test
-  ```
+# Testing
+make test               # Unit testing
+make coverage_test      # Coverage testing
+make load_test          # Load testing, to testing the app performace
+```
 
 ## Contributing
 
