@@ -11,10 +11,11 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
 # misc
 .nyc_output/
-test/output/*
+test/output/
 .env
 package-lock.json
 mongo-init.js

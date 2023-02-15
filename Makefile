@@ -93,6 +93,7 @@ load_test:
 	@make -s wait-db
 	@make -s wait-app
 	@echo "Starting performance test..."
+	@mkdir -pv test/output
 	@yarn load_test
 	@yarn load_test-result
 
