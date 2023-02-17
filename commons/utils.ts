@@ -6,7 +6,7 @@ import { Page, Payload, Response } from "./type";
 import Joi from "joi";
 import moment from "moment";
 
-function responseBuilder({
+function responseBuilder<T>({
   statusCode,
   message,
   data,
@@ -14,7 +14,7 @@ function responseBuilder({
 }: {
   statusCode: StatusCode;
   message: string | Array<string>;
-  data?: Object | Array<Object> | null;
+  data?: T | Array<T> | null;
   page?: Page;
 }) {
   const status = statusCode === StatusCode.OK ? Status.Success : Status.Failed;

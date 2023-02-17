@@ -39,7 +39,7 @@ class UsersDA extends DataAccess<User> {
           id,
         });
         await this.model.findByIdAndUpdate(id, dataToUpdate);
-        return this.serializer({ ...dataToUpdate, id });
+        return this.serializer({ ...dataToUpdate, _id: id });
       }
       throw new CustomError(
         ErrorName.NotFound,

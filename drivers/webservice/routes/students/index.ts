@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as students from "../../controllers/students";
+import students from "../../controllers/students";
 import * as middlewares from "../../middlewares";
 
 const router = Router();

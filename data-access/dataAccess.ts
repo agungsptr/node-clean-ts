@@ -131,7 +131,7 @@ class DataAccess<T> implements DataAccessInterface<T> {
       }
       const dataToUpdate = this.builder({ ...data, ...payload });
       await this.model.findByIdAndUpdate(id, Object(dataToUpdate));
-      return this.serializer({ id, ...dataToUpdate });
+      return this.serializer({ _id: id, ...dataToUpdate });
     } catch (e) {
       throw repackageError(e);
     }
