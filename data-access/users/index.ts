@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import serializer from "./serializer";
-import UsersModel from "../../db/models/users.model";
+import UsersModel, { modelName, unique } from "../../db/models/users.model";
 import CustomError from "../../commons/customError";
 import { DataAccess } from "../dataAccess";
 import { ErrorName, QueryOP } from "../../commons/constants";
@@ -12,12 +12,15 @@ import { Payload } from "../../commons/type";
 
 class UsersDA extends DataAccess<User> {
   constructor(
-    model: mongoose.Model<any>,
-    modelName: string,
+    model: {
+      model: mongoose.Model<any>;
+      name: string;
+      unique?: Array<string>;
+    },
     builder: (payload: Payload) => User | undefined,
     serializer: (payload: Payload) => User
   ) {
-    super(model, modelName, builder, serializer);
+    super(model, builder, serializer);
   }
 
   async update(id: string, payload: Payload): Promise<User> {
@@ -25,7 +28,7 @@ class UsersDA extends DataAccess<User> {
       if (!isValidObjectId(id)) {
         throw new CustomError(ErrorName.Invalid, "id is not valid");
       }
-      const data = await this.model.findById(id);
+      const data = await this.model.model.findById(id);
       if (data) {
         const serializedData = this.serializer(data);
         if (payload.password) {
@@ -38,7 +41,7 @@ class UsersDA extends DataAccess<User> {
           ...payload,
           id,
         });
-        await this.model.findByIdAndUpdate(id, dataToUpdate);
+        await this.model.model.findByIdAndUpdate(id, dataToUpdate);
         return this.serializer({ ...dataToUpdate, _id: id });
       }
       throw new CustomError(
@@ -59,7 +62,7 @@ class UsersDA extends DataAccess<User> {
           throw new CustomError(ErrorName.Invalid, "id is not valid");
         }
       }
-      return this.model
+      return this.model.model
         .findOne(queriesBuilder(QueryOP.EQ, queries))
         .then((data) => {
           if (data) return data;
@@ -71,6 +74,14 @@ class UsersDA extends DataAccess<User> {
   }
 }
 
-const usersDA = new UsersDA(UsersModel, "Users", builder, serializer);
+const usersDA = new UsersDA(
+  {
+    model: UsersModel,
+    name: modelName,
+    unique,
+  },
+  builder,
+  serializer
+);
 
 export default usersDA;

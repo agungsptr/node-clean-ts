@@ -2,6 +2,7 @@ import mongoose from "../connection";
 import { hashPassword } from "../../commons/utils";
 import * as uuid from "uuid";
 
+const modelName = "Users";
 const Schema = mongoose.Schema;
 const UsersSchema = new Schema({
   firstName: String,
@@ -19,6 +20,13 @@ UsersSchema.pre("save", async function () {
   }
 });
 
-const UsersModel = mongoose.model("Users", UsersSchema);
+const UsersModel = mongoose.model(modelName, UsersSchema);
+
+/**
+ * This custom variable validate data is unique
+ * before add it to database
+ */
+const unique = ["username"];
 
 export default UsersModel;
+export { modelName, unique };

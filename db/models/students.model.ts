@@ -1,5 +1,6 @@
 import mongoose from "../connection";
 
+const modelName = "Students";
 const Schema = mongoose.Schema;
 const StudentsSchema = new Schema({
   name: String,
@@ -11,6 +12,7 @@ const StudentsSchema = new Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-const Students = mongoose.model("Students", StudentsSchema);
+const Students = mongoose.model(modelName, StudentsSchema);
 
 export default Students;
+export { modelName };

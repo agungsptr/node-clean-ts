@@ -27,6 +27,7 @@ enum ErrorName {
   NotFound = "Not Found",
   Null = "Null",
   Invalid = "Invalid",
+  DuplicateData = "Duplicate data",
 }
 
 enum QueryOP {
