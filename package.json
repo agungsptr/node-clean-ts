@@ -64,7 +64,7 @@
     "@types/nodemon": "^1.19.2",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.56.0",
     "artillery": "^2.0.0-30",
     "chai": "^4.3.7",
