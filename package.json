@@ -70,7 +70,7 @@
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "mocha": "^10.2.0",
-    "nodemon": "^2.0.21",
+    "nodemon": "^2.0.22",
     "nyc": "^15.1.0",
     "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
