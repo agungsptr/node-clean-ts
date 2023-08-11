@@ -5,16 +5,16 @@
   <p align="center">
     A Node.js project template with clean architecture implementation
     <br />
-    <a href="https://github.com/agungsptr/node-clean"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/agungsptr/node-clean-ts"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/agungsptr/node-clean/stargazers">
+    <a href="https://github.com/agungsptr/node-clean-ts/stargazers">
       <img src="https://img.shields.io/github/stars/agungsptr/node-clean-ts.svg">
     </a>
-    <a href="https://github.com/agungsptr/node-clean/network">
+    <a href="https://github.com/agungsptr/node-clean-ts/network">
       <img src="https://img.shields.io/github/forks/agungsptr/node-clean-ts.svg?color=blue">
     </a>
-    <a href="https://github.com/agungsptr/node-clean/network">
+    <a href="https://github.com/agungsptr/node-clean-ts/network">
       <img src="https://img.shields.io/github/contributors/agungsptr/node-clean-ts.svg?color=blue">
     </a>
   </p>
