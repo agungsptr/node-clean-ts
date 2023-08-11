@@ -46,7 +46,7 @@
     "morgan": "^1.10.0",
     "path": "^0.12.7",
     "uuid": "^9.0.0",
-    "winston": "^3.9.0"
+    "winston": "^3.10.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
