@@ -39,7 +39,7 @@
     "express-rate-limit": "^6.9.0",
     "helmet": "^7.0.0",
     "joi": "^17.10.0",
-    "jsonwebtoken": "^9.0.1",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mongoose": "^7.4.5",
