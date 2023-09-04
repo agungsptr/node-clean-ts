@@ -4386,10 +4386,10 @@ events@1.1.1:
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
   integrity sha512-kEcvvCBByWXGnZy6JUlgAp2gBIUjfCAV6P6TgT1/aaQKcmuAEC4OZTV1I4EWQLz2gxZw76atuVyvHhTxvi0Flw==
 
-express-rate-limit@^6.9.0:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-6.9.0.tgz#afecb23936d9cd1d133a3c20056708b9955cad0f"
-  integrity sha512-AnISR3V8qy4gpKM62/TzYdoFO9NV84fBx0POXzTryHU/qGUJBWuVGd+JhbvtVmKBv37t8/afmqdnv16xWoQxag==
+express-rate-limit@^6.10.0:
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-6.10.0.tgz#e881fcfb1d2a5b364e4850bacb333d537b05e414"
+  integrity sha512-CtGn2IyklQnIWpA4pcRaovXkNR8psDQ9Fa0y5u7Yhz5TL74dNsm7oXpfm1HPKUYiNe5w0TPEyNbIrvNVU/xUIg==
 
 express@^4.16.3, express@^4.18.2:
   version "4.18.2"
