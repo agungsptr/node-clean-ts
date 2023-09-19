@@ -30,7 +30,7 @@
     "@grpc/grpc-js": "^1.9.0",
     "@grpc/proto-loader": "^0.7.9",
     "axios": "^1.5.0",
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
