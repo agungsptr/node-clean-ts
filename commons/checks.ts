@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-function isEmpty(data: [] | string | number | boolean | Date | Object) {
+function isEmpty(data: [] | string | number | boolean | Date | object) {
   if (Array.isArray(data) && data.length === 0) {
     return true;
   } else {

@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import serializer from "./serializer";
 import UsersModel, { modelName, unique } from "../../db/models/users.model";
 import CustomError from "../../commons/customError";
@@ -11,18 +10,6 @@ import { isValidObjectId } from "../../commons/checks";
 import { Payload } from "../../commons/type";
 
 class UsersDA extends DataAccess<User> {
-  constructor(
-    model: {
-      model: mongoose.Model<any>;
-      name: string;
-      unique?: Array<string>;
-    },
-    builder: (payload: Payload) => User | undefined,
-    serializer: (payload: Payload) => User
-  ) {
-    super(model, builder, serializer);
-  }
-
   async update(id: string, payload: Payload): Promise<User> {
     try {
       if (!isValidObjectId(id)) {

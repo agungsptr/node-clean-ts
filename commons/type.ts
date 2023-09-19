@@ -13,7 +13,7 @@ type Response = {
   statusCode: StatusCode;
   status: Status;
   message: string | Array<string>;
-  data?: Object;
+  data?: object;
   page?: Page;
 };
 
@@ -23,6 +23,6 @@ type GrpcQuery = {
   boolValue?: boolean;
 };
 
-type Payload = Record<string, string | number | boolean | Date | Object>;
+type Payload = Record<string, string | number | boolean | Date | object>;
 
 export { Page, Response, GrpcQuery, Payload };

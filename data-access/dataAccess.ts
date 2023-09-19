@@ -10,11 +10,11 @@ interface DataAccessInterface<T> {
   create(payload: Payload): Promise<T>;
   findOne(id: string): Promise<T>;
   findOneBy(
-    queries: { eq?: Object; like?: Object },
+    queries: { eq?: object; like?: object },
     options: { orderBy?: { [key: string]: SortOrder } }
   ): Promise<T>;
   findAll(
-    queries: { eq?: Object; like?: Object },
+    queries: { eq?: object; like?: object },
     options: {
       orderBy?: { [key: string]: SortOrder };
       limit: number;
@@ -91,7 +91,7 @@ class DataAccess<T> implements DataAccessInterface<T> {
   }
 
   async findOneBy(
-    queries: { eq?: Object; like?: Object },
+    queries: { eq?: object; like?: object },
     options: { orderBy?: { [key: string]: SortOrder } } = {
       orderBy: { createdAt: 1 },
     }
@@ -111,7 +111,7 @@ class DataAccess<T> implements DataAccessInterface<T> {
   }
 
   async findAll(
-    queries: { eq?: Object; like?: Object } = {},
+    queries: { eq?: object; like?: object } = {},
     options: {
       orderBy?: { [key: string]: SortOrder };
       limit: number;

@@ -28,8 +28,8 @@ function responseBuilder<T>({
   return result;
 }
 
-function queriesBuilder(eqlType: QueryOP, queries?: Object): Object {
-  const obj: Record<string, string | number | boolean | Date | Object> = {};
+function queriesBuilder(eqlType: QueryOP, queries?: object): object {
+  const obj: Record<string, string | number | boolean | Date | object> = {};
   if (queries === undefined) return obj;
   for (const [key, val] of Object.entries(queries)) {
     if (eqlType === "EQ") {
@@ -55,7 +55,7 @@ async function comparePassword(
   return bcrypt.compare(password, hash);
 }
 
-function issueJwt(payload: Object, userSecretUuid: string = ""): string {
+function issueJwt(payload: object, userSecretUuid = ""): string {
   return jwt.sign(payload, `${config.jwt.secretKey}${userSecretUuid}`, {
     expiresIn: config.jwt.expired,
   });
@@ -123,8 +123,8 @@ function validatorSchema<T>(schema: Joi.Schema) {
 
 async function paginationBuilder<T>(
   loader: (skip: number) => Promise<{ data: Array<T>; total: number }>,
-  limit: number = 10,
-  page: number = 1
+  limit = 10,
+  page = 1
 ) {
   page = page > 0 ? page : 1;
   const skip = limit * (page - 1);
@@ -153,7 +153,7 @@ async function paginationBuilder<T>(
   };
 }
 
-function objBuilder(data: Object | null): Object {
+function objBuilder(data: object | null): object {
   /** Use to make object with only have attribute not null */
   const obj: Record<string, any> = {};
   if (data === null) return obj;

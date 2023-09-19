@@ -6,8 +6,8 @@ import { ErrorName } from "../../commons/constants";
 
 async function findAll(
   queries?: Record<string, string | number | boolean | Date>,
-  limit: number = 10,
-  page: number = 1
+  limit = 10,
+  page = 1
 ) {
   const loader = async (skip: number) => {
     if (queries !== undefined) {
