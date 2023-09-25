@@ -6,8 +6,8 @@ async function logout(payload: Payload): Promise<boolean> {
   const user = await usersDA.findUserCredential({
     _id: String(payload.userId),
   });
-  if (user) {
-    await usersDA.update(user.id!.toString(), { secretUuid: uuid.v4() });
+  if (user.id) {
+    await usersDA.update(user.id.toString(), { secretUuid: uuid.v4() });
     return true;
   }
   return false;

@@ -155,7 +155,7 @@ async function paginationBuilder<T>(
 
 function objBuilder(data: object | null): object {
   /** Use to make object with only have attribute not null */
-  const obj: Record<string, any> = {};
+  const obj: Record<string, unknown> = {};
   if (data === null) return obj;
   for (const [key, val] of Object.entries(data)) {
     if (val) obj[key] = val;

@@ -28,7 +28,7 @@ interface DataAccessInterface<T> {
 
 class DataAccess<T> implements DataAccessInterface<T> {
   protected model: {
-    model: mongoose.Model<any>;
+    model: mongoose.Model<mongoose.AnyExpression>;
     name: string;
     unique?: Array<string>;
   };
@@ -39,7 +39,7 @@ class DataAccess<T> implements DataAccessInterface<T> {
 
   constructor(
     model: {
-      model: mongoose.Model<any>;
+      model: mongoose.Model<mongoose.AnyExpression>;
       name: string;
       unique?: Array<string>;
     },

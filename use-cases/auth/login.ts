@@ -22,8 +22,8 @@ async function login(payload: Payload) {
   if (error.length > 0) throw new CustomError(ErrorName.Invalid, error);
 
   const user = await usersDA.findUserCredential({ username: String(username) });
-  if (user) {
-    if (await comparePassword(String(password), user.password!)) {
+  if (user.password) {
+    if (await comparePassword(String(password), user.password)) {
       const token = issueJwt(
         { id: user.id, username: user.password },
         user.secretUuid
