@@ -76,7 +76,7 @@ describe("routes/students", () => {
     const list = await studentsUC.findAll();
     const data = list.data[0];
     const req = await request(app)
-      .get(`${API_URL}/${data.id!}`)
+      .get(`${API_URL}/${data.id}`)
       .set("Authorization", auth.token)
       .send();
     const expectVal = {
@@ -88,7 +88,7 @@ describe("routes/students", () => {
     expect(req.statusCode).to.eql(200);
     expect(expectVal).to.eql({
       ...data,
-      id: data.id!.valueOf(),
+      id: data.id?.valueOf(),
     });
   });
 
@@ -120,7 +120,7 @@ describe("routes/students", () => {
       perfect: false,
     };
     const req = await request(app)
-      .patch(`${API_URL}/${data.id!}`)
+      .patch(`${API_URL}/${data.id}`)
       .set("Authorization", auth.token)
       .send(dataToUpdate);
     const result = req.body.data;
@@ -133,7 +133,7 @@ describe("routes/students", () => {
     const list = await studentsUC.findAll();
     const data = list.data[0];
     const req = await request(app)
-      .delete(`${API_URL}/${data.id!}`)
+      .delete(`${API_URL}/${data.id}`)
       .set("Authorization", auth.token)
       .send();
     const updatedList = await studentsUC.findAll();
