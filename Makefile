@@ -35,7 +35,7 @@ auto:
 	@echo "Checking all code..."
 	@make -s infra
 	@sleep 3
-	@echo "Starting unit test..."
+	@echo "Starting test..."
 	@yarn test
 	@echo "Finished checking\n"
 	@echo "Compiling typescript..."
@@ -63,6 +63,7 @@ start:
 	@yarn start
 
 dev:
+	@yarn lint
 	@yarn dev
 
 grpc:
@@ -80,6 +81,7 @@ seed:
 
 # Test
 test:
+	@yarn lint
 	@make -s wait-db
 	@echo "Starting unit test..."
 	@yarn test
