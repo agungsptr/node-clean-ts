@@ -81,8 +81,8 @@ function verifyJwt(
   return jwt.verify(
     token,
     secretKey,
-    (err: any, decoded?: jwt.JwtPayload | jwt.Jwt | string) => {
-      if (err) {
+    (err: unknown, decoded?: jwt.JwtPayload | jwt.Jwt | string) => {
+      if (err && err instanceof Error) {
         if (err.message.includes("invalid signature")) {
           return cb(undefined, err.message.replace(" ", "-"));
         }

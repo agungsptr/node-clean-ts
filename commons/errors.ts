@@ -16,12 +16,19 @@ function logError(err: Error): void {
   }
 }
 
-function repackageError(err: any) {
+function repackageError(err: unknown) {
   if (err instanceof CustomError) {
     return err;
   } else {
     const error = new Error();
-    error.stack += `\nCaused by:\n${err.stack}`;
+    if (
+      err !== null &&
+      err !== undefined &&
+      typeof err === "object" &&
+      "stack" in err
+    ) {
+      error.stack += `\nCaused by:\n${err.stack}`;
+    }
     if (config.isDevelopment) console.log(error);
     return error;
   }
@@ -29,7 +36,7 @@ function repackageError(err: any) {
 
 function responseWithError(
   res: Response,
-  err: any,
+  err: unknown,
   customErrorCode: StatusCode = StatusCode.BadRequest
 ) {
   if (err instanceof CustomError) {
@@ -40,7 +47,9 @@ function responseWithError(
       })
     );
   } else {
-    logError(err);
+    if (err instanceof Error) {
+      logError(err);
+    }
     return res.status(500).send(ErrorMessage.SomethingWentWrong);
   }
 }

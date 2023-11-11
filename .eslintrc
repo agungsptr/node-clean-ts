@@ -19,7 +19,7 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint"],
-  "ignorePatterns": ["/build"],
+  "ignorePatterns": ["/build", "/dist"],
   "rules": {
     "quotes": [2, "double"],
     "@typescript-eslint/ban-types": "error",
