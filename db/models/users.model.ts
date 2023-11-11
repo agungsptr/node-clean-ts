@@ -15,7 +15,7 @@ const UsersSchema = new Schema({
 });
 
 UsersSchema.pre("save", async function () {
-  if (this.password !== undefined) {
+  if (this.password !== undefined && this.password !== null) {
     this.password = hashPassword(this.password);
   }
 });

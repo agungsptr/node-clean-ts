@@ -127,8 +127,8 @@ class DataAccess<T> implements DataAccessInterface<T> {
         .skip(options.skip)
         .then((list) => list.map((d) => this.serializer(d)));
       const total = await this.model.model
-        .count(queriesBuilder(QueryOP.EQ, queries.eq))
-        .count(queriesBuilder(QueryOP.LIKE, queries.like));
+        .estimatedDocumentCount(queriesBuilder(QueryOP.EQ, queries.eq))
+        .estimatedDocumentCount(queriesBuilder(QueryOP.LIKE, queries.like));
       return { data, total };
     } catch (e) {
       throw repackageError(e);
