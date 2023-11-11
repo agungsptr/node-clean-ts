@@ -39,5 +39,19 @@ jobs:
         cache: 'yarn'
     - name: Install dependencies
       run: yarn
+    - run: echo 'NODE_ENV=development' > .env
+    - run: echo 'APP_PORT=7000' >> .env
+    - run: echo 'APP_NAME=node_clean' >> .env
+    - run: echo 'MONGO_USER=root' >> .env
+    - run: echo 'MONGO_PW=root' >> .env
+    - run: echo 'MONGO_PORT=27017' >> .env
+    - run: echo 'MONGO_DBNAME=node_clean-db' >> .env
+    - run: echo 'MONGO_HOST=localhost' >> .env
+    - run: echo 'BYCRYPT_SALT=10' >> .env
+    - run: echo 'JWT_SECRET_KEY=secret' >> .env
+    - run: echo 'JWT_EXPIRED=24h' >> .env
+    - run: echo 'RATE_LIMIT_MAX=100' >> .env
+    - run: echo 'RATE_LIMIT_MINUTE=15' >> .env
+    - run: echo 'GRPC_PORT=50051' >> .env
     - run: make infra
     - run: make test
