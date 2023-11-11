@@ -39,19 +39,21 @@ jobs:
         cache: 'yarn'
     - name: Install dependencies
       run: yarn
-    - run: echo 'NODE_ENV=development' > .env
-    - run: echo 'APP_PORT=7000' >> .env
-    - run: echo 'APP_NAME=node_clean' >> .env
-    - run: echo 'MONGO_USER=root' >> .env
-    - run: echo 'MONGO_PW=root' >> .env
-    - run: echo 'MONGO_PORT=27017' >> .env
-    - run: echo 'MONGO_DBNAME=node_clean-db' >> .env
-    - run: echo 'MONGO_HOST=localhost' >> .env
-    - run: echo 'BYCRYPT_SALT=10' >> .env
-    - run: echo 'JWT_SECRET_KEY=secret' >> .env
-    - run: echo 'JWT_EXPIRED=24h' >> .env
-    - run: echo 'RATE_LIMIT_MAX=100' >> .env
-    - run: echo 'RATE_LIMIT_MINUTE=15' >> .env
-    - run: echo 'GRPC_PORT=50051' >> .env
+    - name: Create .env file
+      run: |
+        echo "NODE_ENV=$NODE_ENV" > .env
+        echo "APP_PORT=$APP_PORT" >> .env
+        echo "APP_NAME=$APP_NAME" >> .env
+        echo "MONGO_USER=$MONGO_USER" >> .env
+        echo "MONGO_PW=$MONGO_PW" >> .env
+        echo "MONGO_PORT=$MONGO_PORT" >> .env
+        echo "MONGO_DBNAME=$MONGO_DBNAME" >> .env
+        echo "MONGO_HOST=$MONGO_HOST" >> .env
+        echo "BYCRYPT_SALT=$BYCRYPT_SALT" >> .env
+        echo "JWT_SECRET_KEY=$JWT_SECRET_KEY" >> .env
+        echo "JWT_EXPIRED=$JWT_EXPIRED" >> .env
+        echo "RATE_LIMIT_MAX=$RATE_LIMIT_MAX" >> .env
+        echo "RATE_LIMIT_MINUTE=$RATE_LIMIT_MINUTE" >> .env
+        echo "GRPC_PORT=$GRPC_PORT" >> .env
     - run: make infra
     - run: make test
