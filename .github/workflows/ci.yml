@@ -55,5 +55,7 @@ jobs:
         echo "RATE_LIMIT_MAX=$RATE_LIMIT_MAX" >> .env
         echo "RATE_LIMIT_MINUTE=$RATE_LIMIT_MINUTE" >> .env
         echo "GRPC_PORT=$GRPC_PORT" >> .env
-    - run: make infra
-    - run: make test
+    - name: Setting up infra
+      run: make infra
+    - name: Run unit test
+      run: make test
