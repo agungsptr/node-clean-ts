@@ -3,6 +3,7 @@ version: "3.8"
 networks:
   node_clean-network:
     driver: bridge
+    name: node_clean-network
 
 services:
   db:

@@ -19,15 +19,15 @@ export default {
     MONGO_HOST: process.env.MONGO_HOST,
   },
   bcrypt: {
-    salt: parseInt(`${process.env.BYCRYPT_SALT}`, 10) || 10,
+    salt: Number(process.env.BYCRYPT_SALT) || 10,
   },
   jwt: {
     secretKey: process.env.JWT_SECRET_KEY,
-    expired: process.env.JWT_EXPIRED || "24h",
+    expired: process.env.JWT_EXPIRED ?? "24h",
   },
   rateLimit: {
-    minute: parseInt(`${process.env.RATE_LIMIT_MINUTE}`, 10) || 15,
-    max: parseInt(`${process.env.RATE_LIMIT_MAX}`, 10) || 100,
+    minute: Number(process.env.RATE_LIMIT_MINUTE) || 15,
+    max: Number(process.env.RATE_LIMIT_MAX) || 100,
   },
   GRPC_PORT: process.env.GRPC_PORT,
 };
