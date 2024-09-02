@@ -1,6 +1,6 @@
 TAG := $(shell git tag --sort=creatordate | tail -1)
 IMAGE := agungsptr/node-clean
-COMPOSE := docker-compose -f build/$(NODE_ENV)/docker-compose.yml
+COMPOSE := docker compose -f build/$(NODE_ENV)/docker-compose.yml
 
 
 # Infrastructure

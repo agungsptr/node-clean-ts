@@ -27,9 +27,7 @@ env:
   
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js
@@ -39,22 +37,6 @@ jobs:
         cache: 'yarn'
     - name: Install dependencies
       run: yarn
-    - name: Create .env file
-      run: |
-        echo "NODE_ENV=$NODE_ENV" > .env
-        echo "APP_PORT=$APP_PORT" >> .env
-        echo "APP_NAME=$APP_NAME" >> .env
-        echo "MONGO_USER=$MONGO_USER" >> .env
-        echo "MONGO_PW=$MONGO_PW" >> .env
-        echo "MONGO_PORT=$MONGO_PORT" >> .env
-        echo "MONGO_DBNAME=$MONGO_DBNAME" >> .env
-        echo "MONGO_HOST=$MONGO_HOST" >> .env
-        echo "BYCRYPT_SALT=$BYCRYPT_SALT" >> .env
-        echo "JWT_SECRET_KEY=$JWT_SECRET_KEY" >> .env
-        echo "JWT_EXPIRED=$JWT_EXPIRED" >> .env
-        echo "RATE_LIMIT_MAX=$RATE_LIMIT_MAX" >> .env
-        echo "RATE_LIMIT_MINUTE=$RATE_LIMIT_MINUTE" >> .env
-        echo "GRPC_PORT=$GRPC_PORT" >> .env
     - name: Setting up infra
       run: make infra
     - name: Run unit test
