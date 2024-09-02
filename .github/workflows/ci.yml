@@ -26,7 +26,7 @@ env:
   GRPC_PORT: 50051
   
 jobs:
-  build:
+  unit-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -37,6 +37,10 @@ jobs:
         cache: 'yarn'
     - name: Install dependencies
       run: yarn
+    - name: Install Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
     - name: Setting up infra
       run: make infra
     - name: Run unit test
